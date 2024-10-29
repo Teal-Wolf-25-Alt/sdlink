@@ -74,6 +74,10 @@ public class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
     @SpecComment("Configure messages that will be ignored when relaying to discord")
     public MessageIgnoreConfig ignoreConfig = new MessageIgnoreConfig();
 
+    @Path("triggerCommands")
+    @SpecComment("Run Minecraft commands when discord roles changes. Requires Access Control to be enabled")
+    public TriggerCommandsConfig triggerCommands = new TriggerCommandsConfig();
+
     public SDLinkConfig(boolean wasReload) {
         super("sdlink", "simple-discord-link", "simple-discord-link");
         SDLinkConfig.wasReload = wasReload;

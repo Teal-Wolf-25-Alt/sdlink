@@ -12,6 +12,7 @@ import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.ServerStatusSlashCommand;
 import com.hypherionmc.sdlink.core.discord.hooks.BotReadyHooks;
 import com.hypherionmc.sdlink.core.discord.hooks.DiscordMessageHooks;
+import com.hypherionmc.sdlink.core.discord.hooks.DiscordRoleHooks;
 import com.hypherionmc.sdlink.core.discord.hooks.MinecraftCommandHook;
 import com.hypherionmc.sdlink.core.events.SDLinkReadyEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
@@ -25,6 +26,8 @@ import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
@@ -206,5 +209,15 @@ public class DiscordEventHandler extends ListenerAdapter {
         } catch (Exception e) {
             BotController.INSTANCE.getLogger().error("Failed to remove linked account", e);
         }
+    }
+
+    @Override
+    public void onGuildMemberRoleAdd(@NotNull GuildMemberRoleAddEvent event) {
+        DiscordRoleHooks.INSTANCE.onRoleAdded(event);
+    }
+
+    @Override
+    public void onGuildMemberRoleRemove(@NotNull GuildMemberRoleRemoveEvent event) {
+        DiscordRoleHooks.INSTANCE.onRoleRemoved(event);
     }
 }
