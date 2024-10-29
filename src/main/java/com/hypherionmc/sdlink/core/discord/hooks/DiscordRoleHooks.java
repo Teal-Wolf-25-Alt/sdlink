@@ -25,36 +25,14 @@ public class DiscordRoleHooks {
     public static final DiscordRoleHooks INSTANCE = new DiscordRoleHooks();
 
     public void onRoleAdded(@NotNull GuildMemberRoleAddEvent event) {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
-            return;
-
-        try {
-            List<SDLinkAccount> accounts = DatabaseManager.sdlinkDatabase.getCollection(SDLinkAccount.class);
-
-            if (accounts.isEmpty())
-                return;
-
-            Optional<SDLinkAccount> account = accounts.stream().filter(d -> d.getDiscordID() != null && d.getDiscordID().equalsIgnoreCase(event.getMember().getId())).findFirst();
-
-            account.ifPresent(acc -> {
-                MinecraftAccount mcAccount = MinecraftAccount.of(acc);
-
-                for (Role role : event.getRoles()) {
-                    Optional<TriggerCommandsConfig.TriggerHolder> triggerHolder = SDLinkConfig.INSTANCE.triggerCommands.roleAdded.stream().filter(r -> r.discordRole.equalsIgnoreCase(role.getName()) || r.discordRole.equalsIgnoreCase(role.getId())).findFirst();
-                    if (triggerHolder.isEmpty())
-                        continue;
-
-                    triggerHolder.get().minecraftCommand.forEach(cmd -> {
-                        executeCommand(cmd.replace("%player%", mcAccount.getUsername()).replace("%role%", role.getName()));
-                    });
-                }
-            });
-        } catch (Exception e) {
-            BotController.INSTANCE.getLogger().error("Failed to run roleAdded trigger", e);
-        }
+        runCommandChecks(event.getRoles(), SDLinkConfig.INSTANCE.triggerCommands.roleAdded, "roleAdded", event.getMember().getId());
     }
 
     public void onRoleRemoved(@NotNull GuildMemberRoleRemoveEvent event) {
+        runCommandChecks(event.getRoles(), SDLinkConfig.INSTANCE.triggerCommands.roleRemoved, "roleRemoved", event.getMember().getId());
+    }
+
+    private void runCommandChecks(List<Role> roles, List<TriggerCommandsConfig.TriggerHolder> triggers, String section, String memberId) {
         if (!SDLinkConfig.INSTANCE.accessControl.enabled || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
             return;
 
@@ -64,23 +42,21 @@ public class DiscordRoleHooks {
             if (accounts.isEmpty())
                 return;
 
-            Optional<SDLinkAccount> account = accounts.stream().filter(d -> d.getDiscordID() != null && d.getDiscordID().equalsIgnoreCase(event.getMember().getId())).findFirst();
+            Optional<SDLinkAccount> account = accounts.stream().filter(d -> d.getDiscordID() != null && d.getDiscordID().equalsIgnoreCase(memberId)).findFirst();
 
             account.ifPresent(acc -> {
                 MinecraftAccount mcAccount = MinecraftAccount.of(acc);
 
-                for (Role role : event.getRoles()) {
-                    Optional<TriggerCommandsConfig.TriggerHolder> triggerHolder = SDLinkConfig.INSTANCE.triggerCommands.roleRemoved.stream().filter(r -> r.discordRole.equalsIgnoreCase(role.getName()) || r.discordRole.equalsIgnoreCase(role.getId())).findFirst();
+                for (Role role : roles) {
+                    Optional<TriggerCommandsConfig.TriggerHolder> triggerHolder = triggers.stream().filter(r -> r.discordRole.equalsIgnoreCase(role.getName()) || r.discordRole.equalsIgnoreCase(role.getId())).findFirst();
                     if (triggerHolder.isEmpty())
                         continue;
 
-                    triggerHolder.get().minecraftCommand.forEach(cmd -> {
-                        executeCommand(cmd.replace("%player%", mcAccount.getUsername()).replace("%role%", role.getName()));
-                    });
+                    triggerHolder.get().minecraftCommand.forEach(cmd -> executeCommand(cmd.replace("%player%", mcAccount.getUsername()).replace("%role%", role.getName())));
                 }
             });
         } catch (Exception e) {
-            BotController.INSTANCE.getLogger().error("Failed to run roleRemoved trigger", e);
+            BotController.INSTANCE.getLogger().error("Failed to run {} trigger", section, e);
         }
     }
 
