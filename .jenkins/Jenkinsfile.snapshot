@@ -31,6 +31,12 @@ pipeline {
                 sh "./gradlew clean build -PreleaseType=snapshot"
             }
         }
+
+        stage("Publish Maven") {
+            steps {
+                sh "./gradlew publish -Prelease=true"
+            }
+        }
     }
 
     post {

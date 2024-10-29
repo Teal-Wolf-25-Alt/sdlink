@@ -32,6 +32,12 @@ pipeline {
                 sh "./gradlew publishMod -Prelease=true"
             }
         }
+
+        stage("Publish Maven") {
+            steps {
+                sh "./gradlew publish -Prelease=true"
+            }
+        }
     }
     post {
         always {
