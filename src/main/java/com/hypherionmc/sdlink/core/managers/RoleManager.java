@@ -35,21 +35,21 @@ public class RoleManager {
     public static void loadRequiredRoles(AtomicInteger errCount, StringBuilder builder) {
         if (SDLinkConfig.INSTANCE.accessControl.enabled) {
             SDLinkConfig.INSTANCE.accessControl.requiredRoles.forEach(r -> {
-                Role role = getRole(errCount, builder, "Access Control Role", r);
+                Role role = getRole(errCount, builder, "Access Control", r);
 
                 if (role != null)
                     verificationRoles.add(role);
             });
 
             SDLinkConfig.INSTANCE.accessControl.deniedRoles.forEach(r -> {
-                Role role = getRole(errCount, builder, "Access Control Role", r);
+                Role role = getRole(errCount, builder, "Access Control Deny", r);
 
                 if (role != null)
                     deniedRoles.add(role);
             });
 
             if (!SDLinkUtils.isNullOrEmpty(SDLinkConfig.INSTANCE.accessControl.verifiedRole)) {
-                verifiedRole = getRole(errCount, builder, "Verified Player Role", SDLinkConfig.INSTANCE.accessControl.verifiedRole);
+                verifiedRole = getRole(errCount, builder, "Verified Player", SDLinkConfig.INSTANCE.accessControl.verifiedRole);
             }
         }
     }
