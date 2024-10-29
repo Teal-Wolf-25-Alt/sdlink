@@ -8,7 +8,7 @@ import net.fabricmc.api.ClientModInitializer;
  * @author HypherionSA
  * Client Initializer
  */
-public class SDLinkFabricClient implements ClientModInitializer {
+public final class SDLinkFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {

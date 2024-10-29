@@ -4,12 +4,12 @@
  */
 package com.hypherionmc.sdlink.util;
 
-import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessage;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessageBuilder;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Appender;
@@ -32,7 +32,7 @@ import java.util.Date;
  * Log Appender to allow messages to be relayed from the Game Console to Discord
  */
 @Plugin(name = "SDLinkLogging", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
-public class LogReader extends AbstractAppender {
+public final class LogReader extends AbstractAppender {
 
     public static String logs = "";
     private static boolean isDevEnv = false;

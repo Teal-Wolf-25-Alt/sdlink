@@ -4,12 +4,12 @@ import club.minnced.discord.webhook.WebhookClient;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
 import com.hypherionmc.sdlink.core.managers.WebhookManager;
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import org.jetbrains.annotations.Nullable;
 
-public class DestinationHolder {
+public final class DestinationHolder {
 
     private final GuildMessageChannel channel;
     private final WebhookClient webhookClient;

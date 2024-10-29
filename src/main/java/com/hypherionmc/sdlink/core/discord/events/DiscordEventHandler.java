@@ -5,7 +5,7 @@
 package com.hypherionmc.sdlink.core.discord.events;
 
 import com.hypherionmc.craterlib.core.event.CraterEventBus;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
@@ -14,9 +14,10 @@ import com.hypherionmc.sdlink.core.discord.hooks.BotReadyHooks;
 import com.hypherionmc.sdlink.core.discord.hooks.DiscordMessageHooks;
 import com.hypherionmc.sdlink.core.discord.hooks.DiscordRoleHooks;
 import com.hypherionmc.sdlink.core.discord.hooks.MinecraftCommandHook;
-import com.hypherionmc.sdlink.core.events.SDLinkReadyEvent;
+import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.PermissionChecker;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.JDA;
@@ -41,15 +42,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
 /**
  * @author HypherionSA
  * Class to provide Hooks for Discord Events, such as message received, and login
  * NOTE TO DEVELOPERS: Don't add ANY LOGIC IN HERE. Rather implement it in a seperate class,
  * and use these hooks to trigger that code
  */
-public class DiscordEventHandler extends ListenerAdapter {
+public final class DiscordEventHandler extends ListenerAdapter {
 
     /**
      * Discord yeeted the bot connection
@@ -140,12 +139,11 @@ public class DiscordEventHandler extends ListenerAdapter {
             return;
 
         try {
-            List<SDLinkAccount> accounts = sdlinkDatabase.getCollection(SDLinkAccount.class);
+            List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class);
             Optional<SDLinkAccount> account = accounts.stream().filter(a -> a.getDiscordID() != null && a.getDiscordID().equalsIgnoreCase(event.getUser().getId())).findFirst();
 
             account.ifPresent(a -> {
-                sdlinkDatabase.remove(a, SDLinkAccount.class);
-                sdlinkDatabase.reloadCollection("verifiedaccounts");
+                DatabaseManager.INSTANCE.deleteEntry(a, SDLinkAccount.class);
             });
         } catch (Exception e) {
             BotController.INSTANCE.getLogger().error("Failed to remove linked account", e);
@@ -191,7 +189,7 @@ public class DiscordEventHandler extends ListenerAdapter {
             return;
 
         try {
-            List<SDLinkAccount> accounts = sdlinkDatabase.getCollection(SDLinkAccount.class);
+            List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class);
             Optional<SDLinkAccount> account = accounts.stream().filter(a -> a.getDiscordID() != null && a.getDiscordID().equalsIgnoreCase(event.getUser().getId())).findFirst();
 
             account.ifPresent(a -> {
@@ -203,8 +201,7 @@ public class DiscordEventHandler extends ListenerAdapter {
                     }
                 }
 
-                sdlinkDatabase.remove(a, SDLinkAccount.class);
-                sdlinkDatabase.reloadCollection("verifiedaccounts");
+                DatabaseManager.INSTANCE.deleteEntry(a, SDLinkAccount.class);
             });
         } catch (Exception e) {
             BotController.INSTANCE.getLogger().error("Failed to remove linked account", e);

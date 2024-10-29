@@ -8,8 +8,8 @@ import club.minnced.discord.webhook.WebhookClient;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.core.messaging.SDLinkWebhookClientBuilder;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +26,7 @@ import static club.minnced.discord.webhook.WebhookClientBuilder.WEBHOOK_PATTERN;
  * @author HypherionSA
  * Load and cache Webhook clients for later use
  */
-public class WebhookManager {
+public final class WebhookManager {
 
     private static final HashMap<MessageDestination, WebhookClient> clientMap = new HashMap<>();
     private static final HashMap<MessageType, WebhookClient> overrides = new HashMap<>();

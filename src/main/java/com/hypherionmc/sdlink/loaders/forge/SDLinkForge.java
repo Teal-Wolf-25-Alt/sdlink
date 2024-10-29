@@ -12,7 +12,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(SDLinkConstants.MOD_ID)
-public class SDLinkForge {
+public final class SDLinkForge {
 
     public SDLinkForge() {
         SDLinkNetworking.registerPackets();

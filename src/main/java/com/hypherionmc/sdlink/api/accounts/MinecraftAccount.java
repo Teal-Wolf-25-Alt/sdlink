@@ -2,17 +2,18 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.accounts;
+package com.hypherionmc.sdlink.api.accounts;
 
 import com.hypherionmc.craterlib.core.event.CraterEventBus;
 import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.events.VerificationEvent;
+import com.hypherionmc.sdlink.api.events.VerificationEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.RoleManager;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import com.hypherionmc.sdlink.util.SDLinkUtils;
 import lombok.Getter;
@@ -31,13 +32,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
 /**
  * @author HypherionSA
  * Represents a Minecraft Account. Used for communication between this library and minecraft
  */
-public class MinecraftAccount {
+public final class MinecraftAccount {
 
     @Getter
     private final String username;
@@ -106,8 +105,7 @@ public class MinecraftAccount {
     }
 
     public SDLinkAccount getStoredAccount() {
-        sdlinkDatabase.reloadCollection("verifiedaccounts");
-        SDLinkAccount account = sdlinkDatabase.findById(this.uuid.toString(), SDLinkAccount.class);
+        SDLinkAccount account = DatabaseManager.INSTANCE.findById(this.uuid.toString(), SDLinkAccount.class);
         return account == null ? newDBEntry() : account;
     }
 
@@ -121,8 +119,7 @@ public class MinecraftAccount {
         account.setVerifyCode(null);
         account.setOffline(this.isOffline);
 
-        sdlinkDatabase.upsert(account);
-        sdlinkDatabase.reloadCollection("verifiedaccounts");
+        DatabaseManager.INSTANCE.updateEntry(account);
 
         return account;
     }
@@ -161,8 +158,7 @@ public class MinecraftAccount {
         account.setVerifyCode(null);
 
         try {
-            sdlinkDatabase.upsert(account);
-            sdlinkDatabase.reloadCollection("verifiedaccounts");
+            DatabaseManager.INSTANCE.updateEntry(account);
         } catch (Exception e) {
             BotController.INSTANCE.getLogger().error("Failed to store verified account", e);
         }
@@ -198,8 +194,7 @@ public class MinecraftAccount {
         account.setVerifyCode(null);
 
         try {
-            sdlinkDatabase.upsert(account);
-            sdlinkDatabase.reloadCollection("verifiedaccounts");
+            DatabaseManager.INSTANCE.updateEntry(account);
         } catch (Exception e) {
             BotController.INSTANCE.getLogger().error("Failed to remove verified account", e);
         }
@@ -240,8 +235,7 @@ public class MinecraftAccount {
             if (SDLinkUtils.isNullOrEmpty(account.getVerifyCode())) {
                 int code = SDLinkUtils.intInRange(1000, 9999);
                 account.setVerifyCode(String.valueOf(code));
-                sdlinkDatabase.upsert(account);
-                sdlinkDatabase.reloadCollection("verifiedaccounts");
+                DatabaseManager.INSTANCE.updateEntry(account);
                 return Result.error(SDLinkConfig.INSTANCE.accessControl.verificationMessages.accountVerify.replace("{code}", String.valueOf(code)));
             } else {
                 return Result.error(SDLinkConfig.INSTANCE.accessControl.verificationMessages.accountVerify.replace("{code}", account.getVerifyCode()));

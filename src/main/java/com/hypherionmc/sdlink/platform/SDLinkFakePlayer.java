@@ -4,13 +4,13 @@ import com.hypherionmc.craterlib.nojang.commands.BridgedFakePlayer;
 import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
 import com.hypherionmc.craterlib.utils.ChatUtils;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import shadow.kyori.adventure.text.Component;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-public class SDLinkFakePlayer extends BridgedFakePlayer {
+public final class SDLinkFakePlayer extends BridgedFakePlayer {
 
     private final CompletableFuture<Result> replier;
 

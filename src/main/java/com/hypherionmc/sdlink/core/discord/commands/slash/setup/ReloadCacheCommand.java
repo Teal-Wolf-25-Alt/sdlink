@@ -7,7 +7,7 @@ import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 
-public class ReloadCacheCommand extends SDLinkSlashCommand {
+public final class ReloadCacheCommand extends SDLinkSlashCommand {
 
     public ReloadCacheCommand() {
         super(true);

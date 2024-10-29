@@ -11,7 +11,7 @@ import com.hypherionmc.sdlink.server.SDLinkMinecraftBridge;
  * @author HypherionSA
  * Service loader for library services
  */
-public class SDLinkPlatform {
+public final class SDLinkPlatform {
 
     public static IMinecraftHelper minecraftHelper = new SDLinkMinecraftBridge();
 

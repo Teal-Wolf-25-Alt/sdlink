@@ -6,7 +6,7 @@ import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import shadow.kyori.adventure.text.Component;
 
-public class HidePlayerCommand {
+public final class HidePlayerCommand {
 
     public static void register(CraterRegisterCommandEvent event) {
         CraterCommand command = CraterCommand.literal("hideplayer")

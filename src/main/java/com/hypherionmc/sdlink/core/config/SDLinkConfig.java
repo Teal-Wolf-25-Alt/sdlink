@@ -10,7 +10,7 @@ import com.hypherionmc.craterlib.core.config.annotations.NoConfigScreen;
 import com.hypherionmc.sdlink.core.config.impl.*;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import org.apache.commons.io.FileUtils;
 import shadow.hypherionmc.moonconfig.core.CommentedConfig;
@@ -29,7 +29,7 @@ import java.util.Map;
  * The main mod config Structure
  */
 @NoConfigScreen
-public class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
+public final class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
 
     // DO NOT REMOVE TRANSIENT HERE... OTHERWISE, THE STUPID CONFIG LIBRARY
     // WILL TRY TO WRITE THESE TO THE CONFIG

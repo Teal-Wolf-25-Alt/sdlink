@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author HypherionSA
  * Util classes to help manage certain discord message actions
  */
-public class MessageUtil {
+public final class MessageUtil {
 
     /**
      * Create an Embed Paginator for use with Slash Commands

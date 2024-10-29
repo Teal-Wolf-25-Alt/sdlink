@@ -8,7 +8,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TriggerCommandsConfig {
+public final class TriggerCommandsConfig {
 
     @Path("enabled")
     @SpecComment("Should any of the below commands be executed when a role changes")

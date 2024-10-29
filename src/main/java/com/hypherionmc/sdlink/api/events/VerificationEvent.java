@@ -2,10 +2,10 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.events;
+package com.hypherionmc.sdlink.api.events;
 
 import com.hypherionmc.craterlib.core.event.CraterEvent;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  * @author HypherionSA
  * Events that get triggered when the bot verification list changes
  */
-public class VerificationEvent {
+public final class VerificationEvent {
 
     @Getter
     @RequiredArgsConstructor

@@ -3,7 +3,7 @@ package com.hypherionmc.sdlink.core.config.impl.compat;
 import shadow.hypherionmc.moonconfig.core.conversion.Path;
 import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 
-public class CommonCompat {
+public final class CommonCompat {
 
     @Path("vanish")
     @SpecComment("Should SDLink integrate with Vanish Mod")

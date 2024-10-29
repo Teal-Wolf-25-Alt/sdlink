@@ -12,7 +12,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
  * @author HypherionSA
  * Config Structure to control Discord/MC Message Formatting
  */
-public class MessageFormatting {
+public final class MessageFormatting {
 
     @Path("mcPrefix")
     @SpecComment("Prefix to add to Minecraft when a message is relayed from Discord. Supports MC formatting. Use %user% for the Discord Username")

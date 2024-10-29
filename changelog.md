@@ -15,3 +15,4 @@
 - Add Mini Message formatting support to access control messages
 - Add support for multiple, random bot statuses - [#44](https://github.com/hypherionmc/sdlink/issues/44)
 - Add option to trigger Minecraft commands on role changes [#77](https://github.com/hypherionmc/sdlink/issues/77)
+- Added a basic developer api. Please request additional features on GitHub/Discord

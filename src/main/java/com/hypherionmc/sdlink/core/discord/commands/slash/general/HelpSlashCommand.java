@@ -18,7 +18,7 @@ import java.util.Set;
  * @author HypherionSA
  * The Help Command for the bot
  */
-public class HelpSlashCommand extends SDLinkSlashCommand {
+public final class HelpSlashCommand extends SDLinkSlashCommand {
 
     public HelpSlashCommand() {
         super(false);

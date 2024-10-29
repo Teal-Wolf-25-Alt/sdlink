@@ -4,10 +4,11 @@ import com.hypherionmc.craterlib.core.platform.ModloaderEnvironment;
 import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
 import com.hypherionmc.sdlink.SDLinkConstants;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.services.helpers.IMinecraftHelper;
 import com.hypherionmc.sdlink.platform.SDLinkMCPlatform;
 import com.hypherionmc.sdlink.util.SDLinkChatUtils;
@@ -31,9 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
-public class SDLinkMinecraftBridge implements IMinecraftHelper {
+public final class SDLinkMinecraftBridge implements IMinecraftHelper {
 
     final Pattern patternStart = Pattern.compile("%(.*?)(?:\\|(.*?))?%", Pattern.CASE_INSENSITIVE);
 
@@ -44,8 +43,8 @@ public class SDLinkMinecraftBridge implements IMinecraftHelper {
         AtomicReference<String> user = new AtomicReference<>(member.getEffectiveName());
 
         try {
-            if (sdlinkDatabase != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
-                List<SDLinkAccount> accounts = sdlinkDatabase.getCollection(SDLinkAccount.class);
+            if (SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+                List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class);
                 accounts.stream().filter(a -> a.getDiscordID().equals(member.getId())).findFirst().ifPresent(u -> user.set(u.getInGameName()));
             }
         } catch (Exception e) {

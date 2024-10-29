@@ -5,7 +5,7 @@ import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HidePlayerCommand extends SDLinkSlashCommand {
+public final class HidePlayerCommand extends SDLinkSlashCommand {
 
     public HidePlayerCommand() {
         super(true);
@@ -39,7 +39,7 @@ public class HidePlayerCommand extends SDLinkSlashCommand {
                 return;
             }
 
-            List<SDLinkAccount> accounts = DatabaseManager.sdlinkDatabase.getCollection(SDLinkAccount.class).stream().filter(a -> a.getDiscordID() != null && a.getDiscordID().equalsIgnoreCase(user.getId())).toList();
+            List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class).stream().filter(a -> a.getDiscordID() != null && a.getDiscordID().equalsIgnoreCase(user.getId())).toList();
             if (accounts.isEmpty()) {
                 event.getHook().editOriginal("Cannot find linked minecraft account for user " + user.getAsMention()).queue();
             } else {

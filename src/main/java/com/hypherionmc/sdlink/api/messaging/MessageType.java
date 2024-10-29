@@ -2,7 +2,7 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.messaging;
+package com.hypherionmc.sdlink.api.messaging;
 
 /**
  * @author HypherionSA

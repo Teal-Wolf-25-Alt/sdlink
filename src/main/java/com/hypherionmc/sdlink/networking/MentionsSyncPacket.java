@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @author HypherionSA
  * Config Packet to send cache data from Server to Client to allow mentions
  */
-public class MentionsSyncPacket {
+public final class MentionsSyncPacket {
 
     public static final ResourceIdentifier CHANNEL = new ResourceIdentifier(SDLinkConstants.MOD_ID, "syncpacket");
 

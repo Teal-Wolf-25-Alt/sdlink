@@ -2,19 +2,19 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.messaging.discord;
+package com.hypherionmc.sdlink.api.messaging.discord;
 
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
 import com.hypherionmc.sdlink.core.managers.EmbedManager;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.util.DestinationHolder;
 import com.hypherionmc.sdlink.util.SDLinkUtils;
 import net.dv8tion.jda.api.EmbedBuilder;

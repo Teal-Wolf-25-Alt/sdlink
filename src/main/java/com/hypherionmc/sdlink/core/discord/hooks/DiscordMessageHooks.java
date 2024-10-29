@@ -10,7 +10,7 @@ import com.hypherionmc.sdlink.core.discord.SDLWebhookServerMember;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import com.hypherionmc.sdlink.core.managers.WebhookManager;
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
  * @author HypherionSA
  * Hook class to handle messages the bot receives
  */
-public class DiscordMessageHooks {
+public final class DiscordMessageHooks {
 
     /**
      * Chat messages to be sent back to discord

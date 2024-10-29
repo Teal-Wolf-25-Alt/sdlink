@@ -7,7 +7,7 @@ package com.hypherionmc.sdlink.core.managers;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CacheManager {
+public final class CacheManager {
 
     @Getter
     private static final HashMap<String, String> serverChannels = new HashMap<>();

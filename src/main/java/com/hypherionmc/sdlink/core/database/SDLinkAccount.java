@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Document(collection = "verifiedaccounts", schemaVersion = "1.0")
-public class SDLinkAccount {
+public final class SDLinkAccount {
 
     @Id
     private String uuid;

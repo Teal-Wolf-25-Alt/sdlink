@@ -4,6 +4,9 @@
  */
 package com.hypherionmc.sdlink.core.discord.commands;
 
+import com.hypherionmc.craterlib.core.event.CraterEventBus;
+import com.hypherionmc.sdlink.api.events.SlashCommandRegistrationEvent;
+import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.HelpSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.PlayerListSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.ServerStatusSlashCommand;
@@ -25,7 +28,7 @@ import java.util.Set;
  * Command Manager class to control how commands are registered to discord
  */
 @Getter
-public class CommandManager {
+public final class CommandManager {
 
     public static final CommandManager INSTANCE = new CommandManager();
 
@@ -36,6 +39,8 @@ public class CommandManager {
     }
 
     private void addCommands() {
+        commands.clear();
+
         // Access Control Commands
         commands.add(new VerifyAccountCommand());
         commands.add(new UnverifyAccountSlashCommand());
@@ -70,6 +75,10 @@ public class CommandManager {
      * @param client The Discord Command Client instance
      */
     public void register(CommandClient client) {
+        SlashCommandRegistrationEvent event = new SlashCommandRegistrationEvent();
+        CraterEventBus.INSTANCE.postEvent(event);
+        commands.addAll(event.getCommands());
+
         commands.forEach(client::addSlashCommand);
     }
 

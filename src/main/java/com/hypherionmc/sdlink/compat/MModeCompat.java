@@ -4,16 +4,16 @@ import com.hypherionmc.craterlib.core.event.CraterEventBus;
 import com.hypherionmc.craterlib.core.event.annot.CraterEventListener;
 import com.hypherionmc.mmode.api.events.MaintenanceModeEvent;
 import com.hypherionmc.mmode.config.MaintenanceModeConfig;
-import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessage;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessageBuilder;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import org.jetbrains.annotations.Nullable;
 
-public class MModeCompat {
+public final class MModeCompat {
 
     public static boolean maintenanceActive = false;
 

@@ -6,6 +6,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.0.0'
     id "xyz.wagyourtail.unimined" version "1.3.3"
     id "com.hypherionmc.modutils.modpublisher" version "2.1.6"
+    id 'maven-publish'
 }
 
 orion.setup {
@@ -221,3 +222,31 @@ publisher {
         required("craterlib")
     }
 }
+
+tasks.register('javadocJar', Jar) {
+    from javadoc
+    setArchiveClassifier('javadoc')
+}
+
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.allJava
+    setArchiveClassifier('sources')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(shadowJar) {
+                builtBy shadowJar
+            }
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+
+    repositories {
+        maven orion.getPublishingMaven()
+    }
+}
+
+javadoc.enabled = true

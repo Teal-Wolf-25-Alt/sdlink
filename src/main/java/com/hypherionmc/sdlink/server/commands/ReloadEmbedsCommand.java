@@ -5,7 +5,7 @@ import com.hypherionmc.craterlib.api.events.server.CraterRegisterCommandEvent;
 import com.hypherionmc.sdlink.core.managers.EmbedManager;
 import shadow.kyori.adventure.text.Component;
 
-public class ReloadEmbedsCommand {
+public final class ReloadEmbedsCommand {
 
     public static void register(CraterRegisterCommandEvent event) {
         CraterCommand cmd = CraterCommand.literal("reloadembeds")

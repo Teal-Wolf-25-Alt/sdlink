@@ -11,20 +11,20 @@ import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
 import com.hypherionmc.craterlib.nojang.world.entity.player.BridgedPlayer;
 import com.hypherionmc.craterlib.utils.ChatUtils;
 import com.hypherionmc.sdlink.SDLinkConstants;
-import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.events.SDLinkReadyEvent;
-import com.hypherionmc.sdlink.core.events.VerificationEvent;
+import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
+import com.hypherionmc.sdlink.api.events.VerificationEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessage;
-import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessageBuilder;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
 import com.hypherionmc.sdlink.networking.MentionsSyncPacket;
 import com.hypherionmc.sdlink.platform.SDLinkMCPlatform;
 import com.hypherionmc.sdlink.server.commands.*;
@@ -35,7 +35,7 @@ import shadow.kyori.adventure.text.Component;
 
 @Getter
 @SuppressWarnings("unused")
-public class ServerEvents {
+public final class ServerEvents {
 
     private BridgedMinecraftServer minecraftServer;
     private final long uptime = System.currentTimeMillis();
@@ -301,12 +301,11 @@ public class ServerEvents {
         if (!canSendMessage() || !SDLinkConfig.INSTANCE.chatConfig.playerJoin || (!SDLinkMCPlatform.INSTANCE.playerIsActive(event.getPlayer()) && !event.isFromVanish()))
             return;
 
-        SDLinkAccount account = DatabaseManager.sdlinkDatabase.findById(event.getPlayer().getStringUUID(), SDLinkAccount.class);
+        SDLinkAccount account = DatabaseManager.INSTANCE.findById(event.getPlayer().getStringUUID(), SDLinkAccount.class);
 
         if (account != null) {
             account.setInGameName(ChatUtils.resolve(event.getPlayer().getDisplayName(), false));
-            DatabaseManager.sdlinkDatabase.upsert(account);
-            DatabaseManager.sdlinkDatabase.reloadCollection("verifiedaccounts");
+            DatabaseManager.INSTANCE.updateEntry(account);
         }
 
         DiscordMessage discordMessage = new DiscordMessageBuilder(MessageType.JOIN)

@@ -10,7 +10,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccessControl {
+public final class AccessControl {
 
     @Path("enabled")
     @SpecComment("Enable Access Control")

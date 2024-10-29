@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author HypherionSA
  * Startup permission checker hook to check if the bot has all the required permissions to function
  */
-public class PermissionChecker {
+public final class PermissionChecker {
 
     // Invite URL for bot shown in server logs
     private static final String DISCORD_INVITE = "https://discord.com/api/oauth2/authorize?client_id={bot_id}&permissions=277965401108&scope=bot%20applications.commands";

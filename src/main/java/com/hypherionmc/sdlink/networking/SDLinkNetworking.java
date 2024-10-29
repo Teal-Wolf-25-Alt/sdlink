@@ -6,7 +6,7 @@ import com.hypherionmc.craterlib.core.networking.CraterPacketNetwork;
  * @author HypherionSA
  * Network Controller
  */
-public class SDLinkNetworking {
+public final class SDLinkNetworking {
 
     public static void registerPackets() {
         CraterPacketNetwork.registerPacket(

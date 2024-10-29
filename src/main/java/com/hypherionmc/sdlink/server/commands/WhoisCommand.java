@@ -2,11 +2,11 @@ package com.hypherionmc.sdlink.server.commands;
 
 import com.hypherionmc.craterlib.api.commands.CraterCommand;
 import com.hypherionmc.craterlib.api.events.server.CraterRegisterCommandEvent;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import shadow.kyori.adventure.text.Component;
 
-public class WhoisCommand {
+public final class WhoisCommand {
 
     public static void register(CraterRegisterCommandEvent event) {
         CraterCommand cmd = CraterCommand.literal("whois")

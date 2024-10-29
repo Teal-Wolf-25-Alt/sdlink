@@ -5,7 +5,7 @@ import com.hypherionmc.craterlib.api.events.server.CraterRegisterCommandEvent;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.util.SDLinkChatUtils;
 
-public class DiscordCommand {
+public final class DiscordCommand {
 
     public static void register(CraterRegisterCommandEvent event) {
         CraterCommand cmd = CraterCommand.literal("discord")

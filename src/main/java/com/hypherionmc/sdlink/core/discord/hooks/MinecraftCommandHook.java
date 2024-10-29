@@ -7,7 +7,8 @@ package com.hypherionmc.sdlink.core.discord.hooks;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MinecraftCommands;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -20,9 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
-public class MinecraftCommandHook {
+public final class MinecraftCommandHook {
 
     public static void discordMessageEvent(MessageReceivedEvent event) {
         if (!SDLinkConfig.INSTANCE.linkedCommands.enabled || SDLinkConfig.INSTANCE.linkedCommands.permissions.isEmpty())
@@ -44,8 +43,7 @@ public class MinecraftCommandHook {
         roles.add(event.getMember().getIdLong());
         roles.addAll(event.getMember().getRoles().stream().sorted((r1, r2) -> Long.compare(r2.getPositionRaw(), r1.getPositionRaw())).map(ISnowflake::getIdLong).collect(Collectors.toSet()));
 
-        sdlinkDatabase.reloadCollection("verifiedaccounts");
-        List<SDLinkAccount> accounts = sdlinkDatabase.findAll(SDLinkAccount.class);
+        List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.findAll(SDLinkAccount.class);
         Optional<SDLinkAccount> account = accounts.stream().filter(u -> u.getDiscordID() != null && u.getDiscordID().equals(event.getMember().getId())).findFirst();
 
         MinecraftCommands.Command allowedCommand = null;

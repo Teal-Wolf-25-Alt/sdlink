@@ -4,11 +4,12 @@
  */
 package com.hypherionmc.sdlink.core.discord.commands.slash.verification;
 
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -16,9 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import java.util.Collections;
 import java.util.List;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
-public class VerifyAccountCommand extends SDLinkSlashCommand {
+public final class VerifyAccountCommand extends SDLinkSlashCommand {
 
     public VerifyAccountCommand() {
         super(false);
@@ -40,8 +39,7 @@ public class VerifyAccountCommand extends SDLinkSlashCommand {
             return;
         }
 
-        sdlinkDatabase.reloadCollection("verifiedaccounts");
-        List<SDLinkAccount> accounts = sdlinkDatabase.findAll(SDLinkAccount.class);
+        List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.findAll(SDLinkAccount.class);
 
         if (accounts.isEmpty()) {
             event.getHook().sendMessage("Sorry, but this server does not contain any stored players in its database").setEphemeral(SDLinkConfig.INSTANCE.botConfig.silentReplies).queue();

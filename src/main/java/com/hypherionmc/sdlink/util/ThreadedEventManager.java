@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
  * @author HypherionSA
  * Run discord events in seperate threads
  */
-public class ThreadedEventManager extends InterfacedEventManager {
+public final class ThreadedEventManager extends InterfacedEventManager {
 
     @Override
     public void handle(@NotNull GenericEvent event) {

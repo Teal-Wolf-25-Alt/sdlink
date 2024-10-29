@@ -2,14 +2,14 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.messaging.discord;
+package com.hypherionmc.sdlink.api.messaging.discord;
 
-import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
-import com.hypherionmc.sdlink.core.accounts.DiscordUser;
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.DiscordUser;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageIgnoreConfig;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 
 import java.util.regex.Pattern;
 

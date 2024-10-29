@@ -7,6 +7,7 @@ package com.hypherionmc.sdlink.core.discord.commands.slash.verification;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.util.MessageUtil;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import com.jagrosh.jdautilities.menu.ButtonEmbedPaginator;
@@ -19,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.hypherionmc.sdlink.core.managers.DatabaseManager.sdlinkDatabase;
-
 /**
  * @author HypherionSA
  * Staff Command to view a list of Linked Minecraft and Discord accounts
  */
-public class ViewVerifiedAccounts extends SDLinkSlashCommand {
+public final class ViewVerifiedAccounts extends SDLinkSlashCommand {
 
     public ViewVerifiedAccounts() {
         super(true);
@@ -40,8 +39,7 @@ public class ViewVerifiedAccounts extends SDLinkSlashCommand {
         try {
             ButtonEmbedPaginator.Builder paginator = MessageUtil.defaultPaginator();
 
-            sdlinkDatabase.reloadCollection("verifiedaccounts");
-            List<SDLinkAccount> accounts = sdlinkDatabase.findAll(SDLinkAccount.class);
+            List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.findAll(SDLinkAccount.class);
 
             EmbedBuilder builder = new EmbedBuilder();
             ArrayList<MessageEmbed> pages = new ArrayList<>();

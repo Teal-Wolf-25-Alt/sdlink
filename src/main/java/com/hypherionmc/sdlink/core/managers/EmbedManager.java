@@ -17,7 +17,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class EmbedManager {
+public final class EmbedManager {
 
     private static final File embedDir = new File("./config/simple-discord-link/embeds");
     private static final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();

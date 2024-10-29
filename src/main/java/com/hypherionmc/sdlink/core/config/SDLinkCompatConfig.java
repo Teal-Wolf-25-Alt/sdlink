@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 @NoConfigScreen
-public class SDLinkCompatConfig extends AbstractConfig<SDLinkCompatConfig> {
+public final class SDLinkCompatConfig extends AbstractConfig<SDLinkCompatConfig> {
 
     // DO NOT REMOVE TRANSIENT HERE... OTHERWISE, THE STUPID CONFIG LIBRARY
     // WILL TRY TO WRITE THESE TO THE CONFIG

@@ -4,8 +4,8 @@
  */
 package com.hypherionmc.sdlink.core.config.impl;
 
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.util.DestinationHolder;
 import shadow.hypherionmc.moonconfig.core.conversion.Path;
 import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
@@ -14,7 +14,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
  * @author HypherionSA
  * Config Structure to control the destinations of messages
  */
-public class MessageChannelConfig {
+public final class MessageChannelConfig {
 
     @Path("chat")
     @SpecComment("Control where CHAT messages are delivered")

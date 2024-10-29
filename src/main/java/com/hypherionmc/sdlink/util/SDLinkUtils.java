@@ -4,7 +4,7 @@
  */
 package com.hypherionmc.sdlink.util;
 
-public class SDLinkUtils {
+public final class SDLinkUtils {
 
     public static boolean isNullOrEmpty(String inString) {
         return inString == null || inString.isEmpty();

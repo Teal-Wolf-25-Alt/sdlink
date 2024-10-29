@@ -7,7 +7,7 @@ package com.hypherionmc.sdlink.util;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
-public class SystemUtils {
+public final class SystemUtils {
 
     /**
      * Convert Bytes into a human-readable format, like 1GB

@@ -2,7 +2,7 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.messaging;
+package com.hypherionmc.sdlink.api.messaging;
 
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import lombok.Getter;
  * @author HypherionSA
  * Helper Class to return the result of interactions between Discord and Minecraft
  */
-public class Result {
+public final class Result {
 
     private final Type type;
     @Getter

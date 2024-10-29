@@ -2,7 +2,7 @@
  * This file is part of sdlink-core, licensed under the MIT License (MIT).
  * Copyright HypherionSA and Contributors
  */
-package com.hypherionmc.sdlink.core.accounts;
+package com.hypherionmc.sdlink.api.accounts;
 
 import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
@@ -14,7 +14,7 @@ import lombok.Getter;
  * Represents a Message Author for messages sent from Minecraft to Discord
  */
 @Getter
-public class DiscordAuthor {
+public final class DiscordAuthor {
 
     // User used for Server Messages
     public static final DiscordAuthor SERVER = new DiscordAuthor(SDLinkConfig.INSTANCE.channelsAndWebhooks.serverName, SDLinkConfig.INSTANCE.channelsAndWebhooks.serverAvatar, "server", true, "");

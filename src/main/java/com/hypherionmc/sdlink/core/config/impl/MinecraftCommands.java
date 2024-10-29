@@ -10,7 +10,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinecraftCommands {
+public final class MinecraftCommands {
 
     @Path("enabled")
     @SpecComment("Allow executing Minecraft commands from Discord")

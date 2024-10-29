@@ -6,7 +6,7 @@ import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import shadow.kyori.adventure.text.Component;
 
-public class UnhidePlayerCommand {
+public final class UnhidePlayerCommand {
 
     public static void register(CraterRegisterCommandEvent event) {
         CraterCommand command = CraterCommand.literal("unhideplayer")

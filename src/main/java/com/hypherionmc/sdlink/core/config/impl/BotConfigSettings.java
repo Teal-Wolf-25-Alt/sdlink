@@ -13,7 +13,7 @@ import shadow.hypherionmc.moonconfig.core.fields.RandomArrayList;
  * @author HypherionSA
  * Config Structure for the Core bot settings
  */
-public class BotConfigSettings {
+public final class BotConfigSettings {
 
     @Path("botToken")
     @SpecComment("The token of the Discord Bot to use. This will be encrypted on first load. See https://sdlink.fdd-docs.com/installation/bot-creation/ to find this")

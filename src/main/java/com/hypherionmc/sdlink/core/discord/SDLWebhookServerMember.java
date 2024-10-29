@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.channel.attribute.IPermissionContainer;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.unions.DefaultGuildChannelUnion;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -18,7 +19,8 @@ import java.util.EnumSet;
 import java.util.List;
 
 @RequiredArgsConstructor(staticName = "of")
-public class SDLWebhookServerMember implements Member {
+@ApiStatus.Internal
+public final class SDLWebhookServerMember implements Member {
 
     private final User user;
     private final Guild guild;

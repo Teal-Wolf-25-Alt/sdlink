@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HiddenPlayersCommand extends SDLinkSlashCommand {
+public final class HiddenPlayersCommand extends SDLinkSlashCommand {
 
     public HiddenPlayersCommand() {
         super(true);

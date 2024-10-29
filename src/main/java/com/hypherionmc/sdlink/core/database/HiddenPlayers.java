@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 @Document(collection = "hiddenplayers", schemaVersion = "1.0")
-public class HiddenPlayers {
+public final class HiddenPlayers {
 
     @Id
     private String identifier;

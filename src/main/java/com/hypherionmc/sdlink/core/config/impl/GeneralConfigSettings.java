@@ -12,7 +12,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
  * @author HypherionSA
  * General Mod Settings config Structure
  */
-public class GeneralConfigSettings {
+public final class GeneralConfigSettings {
 
     @Path("enabled")
     @SpecComment("Should the mod be enabled or not")

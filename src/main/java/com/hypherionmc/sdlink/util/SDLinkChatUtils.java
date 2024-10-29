@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @author HypherionSA
  * Helper class to convert mentions from Minecraft Chat into Discord Format
  */
-public class SDLinkChatUtils {
+public final class SDLinkChatUtils {
 
     private static final Pattern CHANNEL_PATTERN = Pattern.compile("\\[#(.*?)\\]", Pattern.CASE_INSENSITIVE);
     private static final Pattern USER_ROLE_PATTERN = Pattern.compile("\\[@(.*?)\\]", Pattern.CASE_INSENSITIVE);

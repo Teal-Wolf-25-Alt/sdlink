@@ -11,7 +11,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 @Mod(SDLinkConstants.MOD_ID)
-public class SDLinkNeoForge {
+public final class SDLinkNeoForge {
 
     public SDLinkNeoForge(IEventBus bus) {
         SDLinkNetworking.registerPackets();

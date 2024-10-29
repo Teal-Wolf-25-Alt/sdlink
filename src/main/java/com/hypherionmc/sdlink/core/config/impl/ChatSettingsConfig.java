@@ -15,7 +15,7 @@ import java.util.List;
  * @author HypherionSA
  * Config Structure to control what types of messages are supported by the mod
  */
-public class ChatSettingsConfig {
+public final class ChatSettingsConfig {
 
     @Path("useLinkedNames")
     @SpecComment("Use linked account names in Discord/Minecraft messages, instead of the default ones")

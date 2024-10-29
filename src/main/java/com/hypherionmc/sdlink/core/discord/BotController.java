@@ -35,7 +35,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author HypherionSA
  * The main Discord Bot class. This controls everything surrounding the bot itself
  */
-public class BotController {
+public final class BotController {
 
     // Thread Execution Manager
     public final ExecutorService taskManager = Executors.newCachedThreadPool();
@@ -70,7 +70,7 @@ public class BotController {
         new SDLinkCompatConfig(wasReload);
 
         // Initialize Account Storage
-        DatabaseManager.initialize();
+        DatabaseManager.INSTANCE.initialize();
 
         // Initialize Webhook Clients
         WebhookManager.init();

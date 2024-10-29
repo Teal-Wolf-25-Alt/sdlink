@@ -4,7 +4,7 @@
  */
 package com.hypherionmc.sdlink.core.discord.commands.slash.general;
 
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author HypherionSA
  * Command to view a list of online players currently on the server
  */
-public class PlayerListSlashCommand extends SDLinkSlashCommand {
+public final class PlayerListSlashCommand extends SDLinkSlashCommand {
 
     public PlayerListSlashCommand() {
         super(false);

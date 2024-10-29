@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import shadow.hypherionmc.moonconfig.core.conversion.Path;
 import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 
-public class MaintenanceModeCompat {
+public final class MaintenanceModeCompat {
 
     @Path("enabled")
     @SpecComment("Should integration with MaintenanceMode be enabled")

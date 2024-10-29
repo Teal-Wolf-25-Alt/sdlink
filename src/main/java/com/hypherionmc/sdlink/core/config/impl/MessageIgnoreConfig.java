@@ -10,7 +10,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageIgnoreConfig {
+public final class MessageIgnoreConfig {
 
     @Path("ignoredMessages")
     @SpecComment("Filter certain types of messages from being relayed back to discord")

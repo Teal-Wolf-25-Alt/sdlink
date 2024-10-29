@@ -7,8 +7,8 @@ package com.hypherionmc.sdlink.core.managers;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
-import com.hypherionmc.sdlink.core.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @author HypherionSA
  * Load and Cache configured channels for later use
  */
-public class ChannelManager {
+public final class ChannelManager {
 
     private static final HashMap<MessageDestination, GuildMessageChannel> channelMap = new HashMap<>();
     private static final HashMap<MessageType, GuildMessageChannel> overrideChannels = new HashMap<>();

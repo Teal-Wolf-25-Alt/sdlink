@@ -5,13 +5,13 @@ import com.hypherionmc.craterlib.core.platform.ModloaderEnvironment;
 import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
 import com.hypherionmc.craterlib.nojang.world.entity.player.BridgedPlayer;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.server.ServerEvents;
 import shadow.kyori.adventure.text.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-public class SDLinkMCPlatform {
+public final class SDLinkMCPlatform {
 
     public static final SDLinkMCPlatform INSTANCE = new SDLinkMCPlatform();
 

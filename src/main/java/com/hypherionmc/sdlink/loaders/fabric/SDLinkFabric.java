@@ -7,7 +7,7 @@ import com.hypherionmc.sdlink.networking.SDLinkNetworking;
 import com.hypherionmc.sdlink.server.ServerEvents;
 import net.fabricmc.api.DedicatedServerModInitializer;
 
-public class SDLinkFabric implements DedicatedServerModInitializer {
+public final class SDLinkFabric implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {

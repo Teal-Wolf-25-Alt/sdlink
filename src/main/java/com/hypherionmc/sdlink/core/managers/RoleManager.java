@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author HypherionSA
  * Load and Cache roles needed by the bot
  */
-public class RoleManager {
+public final class RoleManager {
 
     @Getter
     private static final Set<Role> verificationRoles = new HashSet<>();

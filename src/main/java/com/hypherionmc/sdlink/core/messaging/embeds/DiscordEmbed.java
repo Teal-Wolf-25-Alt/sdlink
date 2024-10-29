@@ -6,7 +6,7 @@ package com.hypherionmc.sdlink.core.messaging.embeds;
 
 import java.util.ArrayList;
 
-public class DiscordEmbed {
+public final class DiscordEmbed {
 
     public String color;
     public String title;

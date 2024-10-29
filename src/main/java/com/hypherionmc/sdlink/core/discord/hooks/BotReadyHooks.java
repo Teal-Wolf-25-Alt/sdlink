@@ -11,7 +11,7 @@ import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.BotConfigSettings;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
-import com.hypherionmc.sdlink.core.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import com.hypherionmc.sdlink.util.SystemUtils;
 import net.dv8tion.jda.api.JDA;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author HypherionSA
  * Hooks to run when the bot is ready
  */
-public class BotReadyHooks {
+public final class BotReadyHooks {
 
     /**
      * Update the bot activity

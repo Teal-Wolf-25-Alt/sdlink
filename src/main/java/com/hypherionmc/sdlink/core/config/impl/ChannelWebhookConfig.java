@@ -12,7 +12,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
  * @author HypherionSA
  * Config Structure to control Channels and Webhooks used by the bot
  */
-public class ChannelWebhookConfig {
+public final class ChannelWebhookConfig {
 
     @Path("serverAvatar")
     @SpecComment("A DIRECT link to an image to use as the avatar for server messages. Also used for embeds")

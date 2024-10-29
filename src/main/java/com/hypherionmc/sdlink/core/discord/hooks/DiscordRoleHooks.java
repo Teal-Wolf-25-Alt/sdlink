@@ -1,12 +1,12 @@
 package com.hypherionmc.sdlink.core.discord.hooks;
 
-import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.TriggerCommandsConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
-import com.hypherionmc.sdlink.core.messaging.Result;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.platform.SDLinkMCPlatform;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DiscordRoleHooks {
+public final class DiscordRoleHooks {
 
     public static final DiscordRoleHooks INSTANCE = new DiscordRoleHooks();
 
@@ -37,7 +37,7 @@ public class DiscordRoleHooks {
             return;
 
         try {
-            List<SDLinkAccount> accounts = DatabaseManager.sdlinkDatabase.getCollection(SDLinkAccount.class);
+            List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class);
 
             if (accounts.isEmpty())
                 return;
