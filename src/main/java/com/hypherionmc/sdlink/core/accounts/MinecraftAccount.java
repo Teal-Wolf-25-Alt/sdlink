@@ -116,6 +116,7 @@ public class MinecraftAccount {
         SDLinkAccount account = new SDLinkAccount();
         account.setUsername(this.username);
         account.setUuid(this.uuid.toString());
+        account.setInGameName(this.username);
         account.setDiscordID(null);
         account.setVerifyCode(null);
         account.setOffline(this.isOffline);
@@ -176,7 +177,7 @@ public class MinecraftAccount {
 
         if (SDLinkConfig.INSTANCE.accessControl.changeDiscordNickname) {
             try {
-                member.modifyNickname(account.getUsername()).queue();
+                member.modifyNickname(account.getInGameName()).queue();
             } catch (Exception e) {
                 BotController.INSTANCE.getLogger().error("Failed to update Nickname for {}", member.getEffectiveName(), e);
             }
@@ -213,7 +214,7 @@ public class MinecraftAccount {
 
         if (SDLinkConfig.INSTANCE.accessControl.changeDiscordNickname) {
             try {
-                if (member.getNickname() != null && member.getNickname().equalsIgnoreCase(account.getUsername())) {
+                if (member.getNickname() != null && member.getNickname().equalsIgnoreCase(account.getInGameName())) {
                     member.modifyNickname(null).queue();
                 }
             } catch (Exception e) {

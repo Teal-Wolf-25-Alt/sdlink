@@ -66,7 +66,7 @@ public class ViewVerifiedAccounts extends SDLinkSlashCommand {
                         member = event.getGuild().getMemberById(v.getDiscordID());
                     }
 
-                    sBuilder.append(v.getUsername()).append(" -> ").append(member == null ? "Unlinked" : member.getAsMention()).append("\r\n");
+                    sBuilder.append(v.getUsername()).append(!v.getInGameName().equalsIgnoreCase(v.getUsername()) ? " (" + v.getInGameName() + " )" : "").append(" -> ").append(member == null ? "Unlinked" : member.getAsMention()).append("\r\n");
                 });
                 builder.setDescription(sBuilder);
                 pages.add(builder.build());

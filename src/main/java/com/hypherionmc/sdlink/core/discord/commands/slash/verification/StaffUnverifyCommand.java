@@ -55,7 +55,7 @@ public class StaffUnverifyCommand extends SDLinkSlashCommand {
             return;
         }
 
-        SDLinkAccount account = accounts.stream().filter(a -> a.getUsername().equalsIgnoreCase(mcname)).findFirst().orElse(null);
+        SDLinkAccount account = accounts.stream().filter(a -> a.getUsername().equalsIgnoreCase(mcname) || a.getInGameName().equalsIgnoreCase(mcname)).findFirst().orElse(null);
 
         if (account == null) {
             event.getHook().editOriginal("No account found that matches " + mcname).queue();

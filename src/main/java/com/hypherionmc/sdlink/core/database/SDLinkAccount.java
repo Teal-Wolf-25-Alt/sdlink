@@ -17,8 +17,12 @@ public class SDLinkAccount {
     @Id
     private String uuid;
     private String username;
+    private String inGameName;
     private String discordID;
     private String verifyCode;
     private boolean isOffline;
 
+    public String getInGameName() {
+        return inGameName == null || inGameName.isEmpty() ? username : inGameName;
+    }
 }

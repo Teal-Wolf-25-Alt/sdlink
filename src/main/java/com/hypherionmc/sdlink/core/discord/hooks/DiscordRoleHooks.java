@@ -52,7 +52,12 @@ public class DiscordRoleHooks {
                     if (triggerHolder.isEmpty())
                         continue;
 
-                    triggerHolder.get().minecraftCommand.forEach(cmd -> executeCommand(cmd.replace("%player%", mcAccount.getUsername()).replace("%role%", role.getName())));
+                    triggerHolder.get().minecraftCommand.forEach(cmd -> executeCommand(
+                            cmd.replace("%player%", mcAccount.getUsername())
+                                    .replace("%role%", role.getName())
+                                    .replace("%ingamename%", acc.getInGameName())
+                                    .replace("%rolenospaces%", role.getName().replace(" ", "")))
+                    );
                 }
             });
         } catch (Exception e) {

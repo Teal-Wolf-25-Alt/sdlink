@@ -15,10 +15,12 @@ import com.hypherionmc.sdlink.core.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.core.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
+import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.events.SDLinkReadyEvent;
 import com.hypherionmc.sdlink.core.events.VerificationEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import com.hypherionmc.sdlink.core.messaging.MessageType;
 import com.hypherionmc.sdlink.core.messaging.discord.DiscordMessage;
@@ -298,6 +300,14 @@ public class ServerEvents {
 
         if (!canSendMessage() || !SDLinkConfig.INSTANCE.chatConfig.playerJoin || (!SDLinkMCPlatform.INSTANCE.playerIsActive(event.getPlayer()) && !event.isFromVanish()))
             return;
+
+        SDLinkAccount account = DatabaseManager.sdlinkDatabase.findById(event.getPlayer().getStringUUID(), SDLinkAccount.class);
+
+        if (account != null) {
+            account.setInGameName(ChatUtils.resolve(event.getPlayer().getDisplayName(), false));
+            DatabaseManager.sdlinkDatabase.upsert(account);
+            DatabaseManager.sdlinkDatabase.reloadCollection("verifiedaccounts");
+        }
 
         DiscordMessage discordMessage = new DiscordMessageBuilder(MessageType.JOIN)
                 .message(SDLinkConfig.INSTANCE.messageFormatting.playerJoined.replace("%player%", ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting)))

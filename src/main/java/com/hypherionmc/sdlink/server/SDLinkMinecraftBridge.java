@@ -46,7 +46,7 @@ public class SDLinkMinecraftBridge implements IMinecraftHelper {
         try {
             if (sdlinkDatabase != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
                 List<SDLinkAccount> accounts = sdlinkDatabase.getCollection(SDLinkAccount.class);
-                accounts.stream().filter(a -> a.getDiscordID().equals(member.getId())).findFirst().ifPresent(u -> user.set(u.getUsername()));
+                accounts.stream().filter(a -> a.getDiscordID().equals(member.getId())).findFirst().ifPresent(u -> user.set(u.getInGameName()));
             }
         } catch (Exception e) {
             if (SDLinkConfig.INSTANCE.generalConfig.debugging) {
@@ -155,7 +155,7 @@ public class SDLinkMinecraftBridge implements IMinecraftHelper {
     public void executeMinecraftCommand(String command, int permLevel, MessageReceivedEvent event, @Nullable SDLinkAccount account, CompletableFuture<Result> replier) {
         String name = event.getMember().getEffectiveName();
         if (account != null) {
-            name = account.getUsername();
+            name = account.getInGameName();
         }
 
         command = command.replace("%linked_user%", name);
