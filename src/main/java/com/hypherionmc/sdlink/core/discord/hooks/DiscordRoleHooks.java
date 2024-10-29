@@ -62,7 +62,7 @@ public class DiscordRoleHooks {
 
     private static void executeCommand(String command) {
         CompletableFuture<Result> result = new CompletableFuture<>();
-        SDLinkMCPlatform.INSTANCE.executeCommand(command, 4, SDLinkConfig.INSTANCE.channelsAndWebhooks.serverName, result);
+        SDLinkMCPlatform.INSTANCE.executeCommand(command, 4, "sdlinktriggersystem", result);
 
         result.thenAccept(res -> {
            if (res.isError()) {
