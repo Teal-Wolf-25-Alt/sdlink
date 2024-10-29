@@ -25,7 +25,7 @@ public class DiscordRoleHooks {
     public static final DiscordRoleHooks INSTANCE = new DiscordRoleHooks();
 
     public void onRoleAdded(@NotNull GuildMemberRoleAddEvent event) {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled)
+        if (!SDLinkConfig.INSTANCE.accessControl.enabled || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
             return;
 
         try {
@@ -55,7 +55,7 @@ public class DiscordRoleHooks {
     }
 
     public void onRoleRemoved(@NotNull GuildMemberRoleRemoveEvent event) {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled)
+        if (!SDLinkConfig.INSTANCE.accessControl.enabled || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
             return;
 
         try {
