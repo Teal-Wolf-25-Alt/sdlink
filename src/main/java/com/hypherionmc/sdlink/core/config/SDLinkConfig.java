@@ -7,16 +7,17 @@ package com.hypherionmc.sdlink.core.config;
 import com.hypherionmc.craterlib.core.config.AbstractConfig;
 import com.hypherionmc.craterlib.core.config.ConfigController;
 import com.hypherionmc.craterlib.core.config.annotations.NoConfigScreen;
-import com.hypherionmc.craterlib.core.config.formats.TomlConfigFormat;
 import com.hypherionmc.sdlink.core.config.impl.*;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.messaging.MessageType;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import org.apache.commons.io.FileUtils;
+import shadow.hypherionmc.moonconfig.core.CommentedConfig;
 import shadow.hypherionmc.moonconfig.core.conversion.ObjectConverter;
 import shadow.hypherionmc.moonconfig.core.conversion.Path;
 import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
+import shadow.hypherionmc.moonconfig.core.fields.RandomArrayList;
 import shadow.hypherionmc.moonconfig.core.file.CommentedFileConfig;
 
 import java.io.File;
@@ -33,7 +34,7 @@ public class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
     // DO NOT REMOVE TRANSIENT HERE... OTHERWISE, THE STUPID CONFIG LIBRARY
     // WILL TRY TO WRITE THESE TO THE CONFIG
     public transient static SDLinkConfig INSTANCE;
-    public transient static int configVer = 20;
+    public transient static int configVer = 21;
     public transient static boolean hasConfigLoaded = false;
     public transient static boolean wasReload = false;
 
@@ -108,15 +109,16 @@ public class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
         }
 
         new ObjectConverter().toConfig(conf, newConfig);
-        ((TomlConfigFormat<SDLinkConfig>)this.getConfigFormat()).updateConfigValues(config, newConfig, newConfig, "");
+        updateConfigValues(config, newConfig, newConfig, "");
         newConfig.set("general.configVersion", configVer);
+
         try {
             FileUtils.copyFile(getConfigPath(), new File(getConfigPath().getAbsolutePath().replace(".toml", ".old")));
         } catch (IOException e) {
             BotController.INSTANCE.getLogger().warn("Failed to create config backup.", e);
         }
-        newConfig.save();
 
+        newConfig.save();
         newConfig.close();
         config.close();
     }
@@ -174,6 +176,27 @@ public class SDLinkConfig extends AbstractConfig<SDLinkConfig> {
             ConfigController.register_config(this);
         }
         this.configReloaded();
+    }
+
+    private void updateConfigValues(CommentedConfig oldConfig, CommentedConfig newConfig, CommentedConfig outputConfig, String subKey) {
+        int ver = oldConfig.getInt("general.configVersion");
+
+        newConfig.valueMap().forEach((key, value) -> {
+            String finalKey = subKey + (subKey.isEmpty() ? "" : ".") + key;
+
+            if (ver < 21) {
+                if (finalKey.equalsIgnoreCase("botConfig.botStatus")) {
+                    outputConfig.set(finalKey, RandomArrayList.of(value));
+                    return;
+                }
+            }
+
+            if (value instanceof CommentedConfig commentedConfig) {
+                this.updateConfigValues(oldConfig, commentedConfig, outputConfig, finalKey);
+            } else {
+                outputConfig.set(finalKey, oldConfig.contains(finalKey) ? oldConfig.get(finalKey) : value);
+            }
+        });
     }
 
     private void encryptOverrideUrls(String key, CommentedFileConfig oldConfig, String url) {

@@ -8,6 +8,7 @@ import com.hypherionmc.craterlib.core.platform.ModloaderEnvironment;
 import com.hypherionmc.sdlink.compat.MModeCompat;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
+import com.hypherionmc.sdlink.core.config.impl.BotConfigSettings;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
 import com.hypherionmc.sdlink.core.messaging.MessageDestination;
@@ -46,15 +47,20 @@ public class BotReadyHooks {
                                 && SDLinkCompatConfig.INSTANCE.maintenanceModeCompat.updateBotStatus) {
                             event.getJDA().getPresence().setActivity(Activity.customStatus(MModeCompat.getMotd()));
                         } else {
-                            Activity act = Activity.of(SDLinkConfig.INSTANCE.botConfig.botStatus.botStatusType, SDLinkConfig.INSTANCE.botConfig.botStatus.botStatus
+                            BotConfigSettings.BotStatus newStatus = SDLinkConfig.INSTANCE.botConfig.botStatus.getNextRandom().orElse(null);
+
+                            if (newStatus == null)
+                                return;
+
+                            Activity act = Activity.of(newStatus.botStatusType, newStatus.botStatus
                                     .replace("%players%", String.valueOf(SDLinkPlatform.minecraftHelper.getPlayerCounts().getLeft()))
                                     .replace("%maxplayers%", String.valueOf(SDLinkPlatform.minecraftHelper.getPlayerCounts().getRight())));
 
-                            if (SDLinkConfig.INSTANCE.botConfig.botStatus.botStatusType == Activity.ActivityType.STREAMING) {
-                                act = Activity.of(SDLinkConfig.INSTANCE.botConfig.botStatus.botStatusType, SDLinkConfig.INSTANCE.botConfig.botStatus.botStatus
+                            if (newStatus.botStatusType == Activity.ActivityType.STREAMING) {
+                                act = Activity.of(newStatus.botStatusType, newStatus.botStatus
                                                 .replace("%players%", String.valueOf(SDLinkPlatform.minecraftHelper.getPlayerCounts().getLeft()))
                                                 .replace("%maxplayers%", String.valueOf(SDLinkPlatform.minecraftHelper.getPlayerCounts().getRight())),
-                                        SDLinkConfig.INSTANCE.botConfig.botStatus.botStatusStreamingURL);
+                                        newStatus.botStatusStreamingURL);
                             }
 
                             event.getJDA().getPresence().setActivity(act);

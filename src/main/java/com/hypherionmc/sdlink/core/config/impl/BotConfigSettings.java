@@ -7,6 +7,7 @@ package com.hypherionmc.sdlink.core.config.impl;
 import net.dv8tion.jda.api.entities.Activity;
 import shadow.hypherionmc.moonconfig.core.conversion.Path;
 import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
+import shadow.hypherionmc.moonconfig.core.fields.RandomArrayList;
 
 /**
  * @author HypherionSA
@@ -15,7 +16,7 @@ import shadow.hypherionmc.moonconfig.core.conversion.SpecComment;
 public class BotConfigSettings {
 
     @Path("botToken")
-    @SpecComment("The token of the Discord Bot to use. This will be encrypted on first load. See https://sdlink.fdd-docs.com/initial-setup/ to find this")
+    @SpecComment("The token of the Discord Bot to use. This will be encrypted on first load. See https://sdlink.fdd-docs.com/installation/bot-creation/ to find this")
     public String botToken = "";
 
     @Path("printInviteLink")
@@ -32,7 +33,7 @@ public class BotConfigSettings {
 
     @Path("botStatus")
     @SpecComment("Control what the Discord Bot will display as it's status message")
-    public BotStatus botStatus = new BotStatus();
+    public RandomArrayList<BotStatus> botStatus = RandomArrayList.of(new BotStatus());
 
     @Path("topicUpdates")
     @SpecComment("Define how the bot should handle channel topic updates on the chat channel")
