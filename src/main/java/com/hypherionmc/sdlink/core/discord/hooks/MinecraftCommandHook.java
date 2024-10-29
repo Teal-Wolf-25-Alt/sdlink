@@ -99,7 +99,7 @@ public class MinecraftCommandHook {
                         }
                     });
 
-            if (!SDLinkConfig.INSTANCE.linkedCommands.keepReplies) {
+            if (!SDLinkConfig.INSTANCE.linkedCommands.keepOriginal) {
                 event.getMessage().delete().queueAfter(5, TimeUnit.SECONDS);
             }
         });

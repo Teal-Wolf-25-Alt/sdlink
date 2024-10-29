@@ -24,6 +24,10 @@ public class MinecraftCommands {
     @SpecComment("Should command replies be deleted automatically or not")
     public boolean keepReplies = false;
 
+    @Path("keepOriginal")
+    @SpecComment("Should the original message that was sent to trigger the command be deleted automatically or not")
+    public boolean keepOriginal = false;
+
     @Path("allowedChannels")
     @SpecComment("You can leave this empty, or enter the channel ID's (surrounded by \"\") of channels where linked commands can be used")
     public List<String> allowedChannels = new ArrayList<>();
