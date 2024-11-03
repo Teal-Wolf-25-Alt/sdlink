@@ -12,7 +12,7 @@ public final class TriggerCommandsConfig {
 
     @Path("enabled")
     @SpecComment("Should any of the below commands be executed when a role changes")
-    public boolean enabled = true;
+    public boolean enabled = false;
 
     @Path("roleAdded")
     @SpecComment("Commands to run when roles are added")

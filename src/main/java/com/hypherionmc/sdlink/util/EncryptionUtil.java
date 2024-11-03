@@ -26,24 +26,7 @@ public final class EncryptionUtil {
     // Instance of the Encryptor Used
     private final StandardPBEStringEncryptor encryptor;
 
-    private EncryptionUtil() {
-        String encCode = "";
-
-        File storageDir = new File("sdlinkstorage");
-        if (storageDir.exists())
-            storageDir.mkdirs();
-
-        // Try to read a saved encryption key, or try to save a new one
-        try {
-            File encKey = new File(storageDir.getAbsolutePath() + File.separator + "sdlink.enc");
-            if (!encKey.exists()) {
-                FileUtils.writeStringToFile(encKey, getSaltString(), StandardCharsets.UTF_8);
-            }
-            encCode = FileUtils.readFileToString(encKey, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            BotController.INSTANCE.getLogger().error("Failed to initialize Encryption", e);
-        }
-
+    public EncryptionUtil(String encCode) {
         canRun = !encCode.isEmpty();
 
         encryptor = new StandardPBEStringEncryptor();
@@ -56,7 +39,24 @@ public final class EncryptionUtil {
 
     private static EncryptionUtil getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new EncryptionUtil();
+            String encCode = "";
+
+            File storageDir = new File("sdlinkstorage");
+            if (storageDir.exists())
+                storageDir.mkdirs();
+
+            // Try to read a saved encryption key, or try to save a new one
+            try {
+                File encKey = new File(storageDir.getAbsolutePath() + File.separator + "sdlink.enc");
+                if (!encKey.exists()) {
+                    FileUtils.writeStringToFile(encKey, getSaltString(), StandardCharsets.UTF_8);
+                }
+                encCode = FileUtils.readFileToString(encKey, StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                BotController.INSTANCE.getLogger().error("Failed to initialize Encryption", e);
+            }
+
+            INSTANCE = new EncryptionUtil(encCode);
         }
         return INSTANCE;
     }
@@ -120,7 +120,7 @@ public final class EncryptionUtil {
     }
 
     // Generate Random codes for encryption/decryption
-    private String getSaltString() {
+    public static String getSaltString() {
         return RandomStringUtils.random(SDLinkUtils.intInRange(30, 100), true, true);
     }
 }

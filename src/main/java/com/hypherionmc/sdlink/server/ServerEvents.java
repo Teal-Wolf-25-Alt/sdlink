@@ -66,6 +66,7 @@ public final class ServerEvents {
         ReloadBotCommand.register(event);
         HidePlayerCommand.register(event);
         UnhidePlayerCommand.register(event);
+        ConfigEditorCommand.register(event);
     }
 
     @CraterEventListener
