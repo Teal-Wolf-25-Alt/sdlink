@@ -56,7 +56,7 @@ public final class DiscordAuthor {
                 SDLinkConfig.INSTANCE.chatConfig.playerAvatarType.resolve(SDLinkPlatform.minecraftHelper.isOnlineMode() ? uuid : username),
                 username,
                 false,
-                SDLinkPlatform.minecraftHelper.isOnlineMode() ? uuid : username
+                uuid
         );
     }
 

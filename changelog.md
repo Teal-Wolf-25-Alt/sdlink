@@ -5,10 +5,15 @@
 
 *Requires CraterLib 2.1.1 or newer*
 
+**Breaking Changes**:
+
+- This update potentially breaks verified accounts on "offline" servers. If that's the case, unverify and reverify your account.
+
 **Bug Fixes**:
 
 - Fix Role Checker showing Role Role (instead of just Role)
 - Added missing permissions to invite link and permission checker
+- Fixed issues with geyser/floodgate servers using access control
 
 **New Features**:
 

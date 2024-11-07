@@ -36,25 +36,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author HypherionSA
  * Represents a Minecraft Account. Used for communication between this library and minecraft
  */
+@Getter
 public final class MinecraftAccount {
 
-    @Getter
     private final String username;
-    @Getter
     private final UUID uuid;
-    private final boolean isOffline;
+    //private final boolean isOffline;
 
     /**
      * Internal.
      *
      * @param username  The Username of the Player
      * @param uuid      The UUID of the player
-     * @param isOffline Is this an OFFLINE/Unauthenticated Account
      */
-    private MinecraftAccount(String username, UUID uuid, boolean isOffline) {
+    private MinecraftAccount(String username, UUID uuid) {
         this.username = username;
         this.uuid = uuid;
-        this.isOffline = isOffline;
     }
 
     /**
@@ -62,7 +59,7 @@ public final class MinecraftAccount {
      * @param account The database entry
      */
     public static MinecraftAccount of(SDLinkAccount account) {
-        return new MinecraftAccount(account.getUsername(), UUID.fromString(account.getUuid()), account.isOffline());
+        return new MinecraftAccount(account.getUsername(), UUID.fromString(account.getUuid()));
     }
 
     /**
@@ -71,28 +68,7 @@ public final class MinecraftAccount {
      * @param profile The player GameProfile
      */
     public static MinecraftAccount of(BridgedGameProfile profile) {
-        if (SDLinkPlatform.minecraftHelper.isOnlineMode()) {
-            return new MinecraftAccount(profile.getName(), profile.getId(), false);
-        }
-        return offline(profile.getName());
-    }
-
-    /**
-     * Convert a username to an offline account
-     *
-     * @param username The Username to search for
-     */
-    private static MinecraftAccount offline(String username) {
-        Pair<String, UUID> player = offlinePlayer(username);
-        return new MinecraftAccount(
-                player.getLeft(),
-                player.getRight(),
-                true
-        );
-    }
-
-    private static Pair<String, UUID> offlinePlayer(String offlineName) {
-        return Pair.of(offlineName, UUID.nameUUIDFromBytes(("OfflinePlayer:" + offlineName).getBytes(StandardCharsets.UTF_8)));
+        return new MinecraftAccount(profile.getName(), profile.getId());
     }
 
     public boolean isAccountVerified() {
@@ -117,7 +93,7 @@ public final class MinecraftAccount {
         account.setInGameName(this.username);
         account.setDiscordID(null);
         account.setVerifyCode(null);
-        account.setOffline(this.isOffline);
+        account.setOffline(false);
 
         DatabaseManager.INSTANCE.updateEntry(account);
 
