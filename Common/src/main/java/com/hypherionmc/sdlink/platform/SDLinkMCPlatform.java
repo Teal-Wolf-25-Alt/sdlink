@@ -39,10 +39,6 @@ public final class SDLinkMCPlatform {
             return true;
         }
 
-        // FIXME This check is reversed inside craterlib by mistake. Once fixed, this has to be swapped back
-        if (ModloaderEnvironment.INSTANCE.isModLoaded("melius-vanish") || ModloaderEnvironment.INSTANCE.isModLoaded("vmod"))
-            return !CompatUtils.INSTANCE.isPlayerActive(player);
-
         return CompatUtils.INSTANCE.isPlayerActive(player);
     }
 }

@@ -153,7 +153,7 @@ subprojects {
             relocate 'com.google.common', shade_group + 'google.common'
             relocate 'com.google.thirdparty', shade_group + 'google.thirdparty'
             relocate 'edu', shade_group + 'edu'
-            relocate 'io', shade_group + 'io'
+            relocate 'io.jsondb', shade_group + 'io.jsondb'
             relocate 'javassist', shade_group + 'javassist'
             relocate 'org.apache.commons.beanutils', shade_group + 'org.apache.commons.beanutils'
             relocate 'org.apache.commons.collections', shade_group + 'org.apache.commons.collections'

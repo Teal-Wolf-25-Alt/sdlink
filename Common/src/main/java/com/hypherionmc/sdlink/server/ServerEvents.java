@@ -425,7 +425,7 @@ public final class ServerEvents {
             var result = account.canLogin();
 
             if (result.isError())
-                event.setMessage(SDLinkChatUtils.format(result.getMessage()));
+                event.setMessage(ChatUtils.format(result.getMessage()));
         }
     }
 

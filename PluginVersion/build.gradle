@@ -21,10 +21,10 @@ publisher {
     setModrinthID(modrinth_id)
     setNightbloomID("sdlink")
     setProjectVersion(project.version.toString())
-    setReleaseType(ReleaseType.RELEASE)
+    setReleaseType(ReleaseType.ALPHA)
     setChangelog(project.rootProject.file("changelog.md"))
-    setDisplayName("[Paper 1.19.2 - 1.21.3] Simple Discord Link Paper - ${project.version}")
-    setGameVersions("1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
+    setDisplayName("[Paper 1.19.4 - 1.21.3] Simple Discord Link Paper - ${project.version}")
+    setGameVersions("1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
     setLoaders("paper")
     setArtifact(shadowJar)
 

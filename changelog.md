@@ -3,17 +3,19 @@
 - [Online Config Editor](https://editor.firstdark.dev)
 
 
-*Requires CraterLib 2.1.1 or newer*
+*Requires CraterLib 2.1.2 or newer*
 
 **Breaking Changes**:
 
-- This update potentially breaks verified accounts on "offline" servers. If that's the case, unverify and reverify your account.
+- This update potentially breaks real verified accounts on "offline" servers. If that's the case, unverify and reverify your account.
 
 **Bug Fixes**:
 
 - Fix Role Checker showing Role Role (instead of just Role)
 - Added missing permissions to invite link and permission checker
 - Fixed issues with geyser/floodgate servers using access control
+- Fixed Linked Commands not respecting discord role ordering
+- Finally fixed inverted Vanish Api Check
 
 **New Features**:
 
@@ -22,4 +24,4 @@
 - Add option to trigger Minecraft commands on role changes [#77](https://github.com/hypherionmc/sdlink/issues/77)
 - Added a basic developer api. Please request additional features on GitHub/Discord
 - Added `sdconfigeditor` minecraft command, to integrate with our Online Config Editor
-- Support for Paper. Only currently available on Modrinth
+- Support for Paper. Only currently available on Modrinth and NightBloom

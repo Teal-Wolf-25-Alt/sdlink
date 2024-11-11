@@ -177,16 +177,22 @@ public final class BotController {
      * Shutdown the Bot
      */
     public void shutdownBot() {
-        shutdownCalled = true;
-        if (_jda != null) {
-            List<Object> listeners = _jda.getRegisteredListeners();
-            listeners.forEach(l -> _jda.removeEventListener(l));
-            _jda.shutdownNow();
-        }
+        try {
+            shutdownCalled = true;
+            if (_jda != null) {
+                List<Object> listeners = _jda.getRegisteredListeners();
+                listeners.forEach(l -> _jda.removeEventListener(l));
+                _jda.shutdownNow();
+            }
 
-        WebhookManager.shutdown();
-        taskManager.shutdownNow();
-        updatesManager.shutdownNow();
+            WebhookManager.shutdown();
+            taskManager.shutdownNow();
+            updatesManager.shutdownNow();
+        } catch (IllegalStateException ignored) {
+            // This is sometimes triggered on paper, but works as expected. So we just ignore it
+        } catch (Exception e) {
+            logger.error("Failed to shutdown bot.", e);
+        }
     }
 
     public JDA getJDA() {
