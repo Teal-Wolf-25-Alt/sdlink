@@ -22,3 +22,4 @@
 - Add option to trigger Minecraft commands on role changes [#77](https://github.com/hypherionmc/sdlink/issues/77)
 - Added a basic developer api. Please request additional features on GitHub/Discord
 - Added `sdconfigeditor` minecraft command, to integrate with our Online Config Editor
+- Support for Paper. Only currently available on Modrinth

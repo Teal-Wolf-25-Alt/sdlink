@@ -1,0 +1,21 @@
+name: SimpleDiscordLink
+version: ${version}
+main: com.hypherionmc.sdlink.loaders.paper.SDLinkPaper
+description: A simple Minecraft to Discord Chat bot with Whitelisting
+author: ${mod_author}
+website: https://github.com/firstdarkdev/sdlink
+load: STARTUP
+bootstrapper: com.hypherionmc.sdlink.loaders.paper.SDLinkPaperBootstrap
+api-version: '1.19'
+
+dependencies:
+  bootstrap:
+    CraterLib:
+      load: BEFORE
+      required: true
+      join-classpath: true
+  server:
+    CraterLib:
+      load: BEFORE
+      required: true
+      join-classpath: true

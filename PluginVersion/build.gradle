@@ -1,0 +1,38 @@
+import com.hypherionmc.modpublisher.properties.ReleaseType
+archivesBaseName = "${mod_name.replace(" ", "")}-Paper"
+
+dependencies {
+    // Do not edit or remove
+    implementation project(":Common")
+}
+
+shadowJar {
+    dependencies {
+        relocate 'shadow.kyori', 'net.kyori'
+    }
+}
+
+publisher {
+    apiKeys {
+        modrinth(System.getenv("MODRINTH_TOKEN"))
+        nightbloom(System.getenv("PLATFORM_KEY"))
+    }
+
+    setModrinthID(modrinth_id)
+    setNightbloomID("sdlink")
+    setProjectVersion(project.version.toString())
+    setReleaseType(ReleaseType.RELEASE)
+    setChangelog(project.rootProject.file("changelog.md"))
+    setDisplayName("[Paper 1.19.2 - 1.21.3] Simple Discord Link Paper - ${project.version}")
+    setGameVersions("1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
+    setLoaders("paper")
+    setArtifact(shadowJar)
+
+    modrinthDepends {
+        required("Nn8Wasaq")
+    }
+
+    nightbloomDepends {
+        required("craterlib")
+    }
+}

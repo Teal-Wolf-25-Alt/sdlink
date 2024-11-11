@@ -1,8 +1,6 @@
-import com.hypherionmc.modpublisher.properties.ReleaseType
-
 plugins {
     id 'java'
-    id "com.hypherionmc.modutils.orion" version "1.0.20"
+    id "com.hypherionmc.modutils.orion" version "1.0.23"
     id 'com.github.johnrengelman.shadow' version '8.0.0'
     id "xyz.wagyourtail.unimined" version "1.3.3"
     id "com.hypherionmc.modutils.modpublisher" version "2.1.6"
@@ -13,6 +11,7 @@ orion.setup {
     enableMirrorMaven = true
     enableReleasesMaven = true
     enableSnapshotsMaven = true
+    multiProject = true
 
     dopplerToken = System.getenv("DOPPLER_KEY")
 
@@ -27,45 +26,51 @@ orion.setup {
     }
 }
 
-group = project_group
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-archivesBaseName = "${mod_name.replace(" ", "")}-Universal"
+subprojects {
+    apply plugin: "xyz.wagyourtail.unimined"
+    apply plugin: "java"
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'com.hypherionmc.modutils.modpublisher'
 
-repositories {
-    mavenCentral()
-    maven {
-        url = "https://api.nightbloom.cc/maven"
+    group = project_group
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenCentral()
+        maven {
+            url = "https://api.nightbloom.cc/maven"
+        }
     }
-}
 
-configurations {
-    shade
-    modCompileOnly
-    implementation.extendsFrom shade
-    compileOnly.extendsFrom modCompileOnly
-}
-
-dependencies {
-    // Discord
-    shade("pw.chew:jda-chewtils:${chewtils}") {
-        exclude group: 'org.apache.commons'
+    configurations {
+        shade
+        modCompileOnly
+        implementation.extendsFrom shade
+        compileOnly.extendsFrom modCompileOnly
     }
-    shade("net.dv8tion:JDA:${jda}") {
-        exclude module: 'opus-java'
-        exclude group: 'org.apache.commons'
+
+    dependencies {
+        // Discord
+        shade("pw.chew:jda-chewtils:${chewtils}") {
+            exclude group: 'org.apache.commons'
+        }
+        shade("net.dv8tion:JDA:${jda}") {
+            exclude module: 'opus-java'
+            exclude group: 'org.apache.commons'
+        }
+        shade("club.minnced:discord-webhooks:${webhooks}")
+
+        // Utilities
+        shade("org.apache.commons:commons-collections4:${commons4}")
+        shade("com.github.oshi:oshi-core:${oshi}")
+        shade("org.jasypt:jasypt:${jasypt}:lite")
+        shade("com.hypherionmc.jsondb:jsondb-core:${json_db}")
+
+        implementation "com.hypherionmc.craterlib:CraterLib-Common-1.20.4:${craterlib}:dev"
+        implementation "nightbloom:mmode:${maintenance_mode}"
     }
-    shade("club.minnced:discord-webhooks:${webhooks}")
-
-    // Utilities
-    shade("org.apache.commons:commons-collections4:${commons4}")
-    shade("com.github.oshi:oshi-core:${oshi}")
-    shade("org.jasypt:jasypt:${jasypt}:lite")
-    shade("com.hypherionmc.jsondb:jsondb-core:${json_db}")
-
-    implementation "com.hypherionmc.craterlib:CraterLib-Common-1.20.4:${craterlib}:dev"
-    implementation "nightbloom:mmode:${maintenance_mode}"
-}
 
 
 /**
@@ -73,180 +78,161 @@ dependencies {
  * =       DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING        =
  * ===============================================================================
  */
-unimined.minecraft {
-    version minecraft_version
+    unimined.minecraft {
+        version minecraft_version
 
-    fabric {
-        loader fabric_loader
+        fabric {
+            loader fabric_loader
+        }
+
+        mappings {
+            mojmap()
+            devNamespace "mojmap"
+        }
+
+        defaultRemapJar = false
     }
 
-    mappings {
-        mojmap()
-        devNamespace "mojmap"
-    }
+    processResources {
+        if (project.name !== "Common") {
+            from project(":Common").sourceSets.main.resources
+        }
 
-    defaultRemapJar = false
-}
+        def buildProps = project.properties.clone()
 
-processResources {
-    def buildProps = project.properties.clone()
-
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', "META-INF/mods.toml", "META-INF/neoforge.mods.toml"]) {
-        expand buildProps
-    }
-}
-
-shadowJar {
-    from sourceSets.main.output
-    configurations = [project.configurations.shade]
-    setArchiveClassifier(null)
-
-    dependencies {
-        exclude(dependency('org.apache.logging.log4j:log4j-core:.*'))
-        exclude(dependency('org.apache.logging.log4j:log4j-core:.*'))
-        exclude(dependency('org.apache.logging.log4j:log4j-slf4j18-impl:.*'))
-        exclude(dependency('org.apache.commons:commons-lang3:.*'))
-        exclude(dependency('com.google.code.gson:.*'))
-        exclude(dependency('javax:.*'))
-        exclude(dependency('org.jetbrains:.*'))
-        exclude(dependency('net.java.dev.jna:.*'))
-        exclude(dependency('org.slf4j:.*'))
-
-        exclude 'org/slf4j/**'
-        exclude 'META-INF/versions/9/**'
-        exclude 'module-info.class'
-        exclude 'org/apache/commons/lang3/**'
-
-        relocate 'org.apache.commons.collections4', shade_group + 'apache.commons.collections4'
-        relocate 'javax.annotation', shade_group + 'javax.annotation'
-        relocate 'gnu.trove', shade_group + 'gnu.trove'
-        relocate 'com.fasterxml', shade_group + 'fasterxml'
-        relocate 'club.minnced', shade_group + 'club.minnced'
-        relocate 'com.iwebpp', shade_group + 'iwebpp'
-        relocate 'com.jagrosh', shade_group + 'jagrosh'
-        relocate 'com.neovisionaries', shade_group + 'neovisionaries'
-        relocate 'net.dv8tion', shade_group + 'dv8tion'
-        relocate 'okhttp3', shade_group + 'okhttp3'
-        relocate 'okio', shade_group + 'okio'
-        relocate 'org.json', shade_group + 'json'
-        relocate 'pw.chew', shade_group + 'chew'
-        relocate 'oshi', shade_group + 'oshi'
-        relocate 'kotlin', shade_group + 'kotlin'
-        relocate 'org.jasypt', shade_group + 'jasypt'
-        relocate 'com.google.common', shade_group + 'google.common'
-        relocate 'com.google.thirdparty', shade_group + 'google.thirdparty'
-        relocate 'edu', shade_group + 'edu'
-        relocate 'io', shade_group + 'io'
-        relocate 'javassist', shade_group + 'javassist'
-        relocate 'org.apache.commons.beanutils', shade_group + 'org.apache.commons.beanutils'
-        relocate 'org.apache.commons.collections', shade_group + 'org.apache.commons.collections'
-        relocate 'org.apache.commons.jxpath', shade_group + 'org.apache.commons.jxpath'
-        relocate 'org.apache.commons.logging', shade_group + 'org.apache.commons.logging'
-        relocate 'org.reflections', shade_group + 'org.reflections'
-        relocate 'net.bytebuddy', shade_group + 'net.bytebuddy'
-        relocate 'org.checkerframework', shade_group + 'org.checkerframework'
-        relocate 'com.google.errorprone', shade_group + 'com.google.errorprone'
-    }
-
-    exclude "META-INF/maven/**"
-    exclude "META-INF/versions/**"
-    exclude "META-INF/proguard/**"
-    exclude "META-INF/*LICENSE"
-    exclude "META-INF/*NOTICE"
-    exclude "META-INF/*kotlin_module"
-    exclude "META-INF/*.txt"
-    exclude "META-INF/services/com.fasterxml.**"
-}
-
-jar {
-    setArchiveClassifier("slim")
-    finalizedBy(shadowJar)
-
-    manifest {
-        attributes([
-                'Specification-Title'     : mod_id,
-                'Specification-Vendor'    : mod_author,
-                'Specification-Version'   : project.jar.archiveVersion,
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_author,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Timestamp'               : System.currentTimeMillis(),
-                'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On-Minecraft'      : minecraft_version
-        ])
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = 'UTF-8'
-    it.options.release = 17
-}
-
-tasks.withType(GenerateModuleMetadata).configureEach {
-    enabled = false
-}
-
-shadowJar.doLast {
-    delete(jar.getArchiveFile())
-}
-
-publisher {
-    apiKeys {
-        modrinth(System.getenv("MODRINTH_TOKEN"))
-        curseforge(System.getenv("CURSE_TOKEN"))
-        nightbloom(System.getenv("PLATFORM_KEY"))
-    }
-
-    setCurseID(curse_id)
-    setModrinthID(modrinth_id)
-    setNightbloomID("sdlink")
-    setProjectVersion(project.version.toString())
-    setReleaseType(ReleaseType.RELEASE)
-    setChangelog(project.file("changelog.md"))
-    setDisplayName("[1.18.2 - 1.21.3] Simple Discord Link Universal - ${project.version}")
-    setGameVersions("1.18.2", "1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
-    setLoaders("forge", "fabric", "quilt", "neoforge")
-    setCurseEnvironment("both")
-    setArtifact(shadowJar)
-
-    modrinthDepends {
-        required("Nn8Wasaq")
-    }
-
-    curseDepends {
-        required("craterlib")
-    }
-
-    nightbloomDepends {
-        required("craterlib")
-    }
-}
-
-tasks.register('javadocJar', Jar) {
-    from javadoc
-    setArchiveClassifier('javadoc')
-}
-
-tasks.register('sourcesJar', Jar) {
-    from sourceSets.main.allJava
-    setArchiveClassifier('sources')
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact(shadowJar) {
-                builtBy shadowJar
-            }
-            artifact sourcesJar
-            artifact javadocJar
+        filesMatching(['pack.mcmeta', 'fabric.mod.json', "META-INF/mods.toml", "META-INF/neoforge.mods.toml", "paper-plugin.yml"]) {
+            expand buildProps
         }
     }
 
-    repositories {
-        maven orion.getPublishingMaven()
+    if (project.name !== "Common") {
+        tasks.withType(JavaCompile).configureEach {
+            source(project(":Common").sourceSets.main.allSource)
+        }
     }
-}
 
-javadoc.enabled = true
+    compileTestJava.enabled = false
+
+    shadowJar {
+        from sourceSets.main.output
+        configurations = [project.configurations.shade]
+        setArchiveClassifier(null)
+
+        dependencies {
+            exclude(dependency('org.apache.logging.log4j:log4j-core:.*'))
+            exclude(dependency('org.apache.logging.log4j:log4j-core:.*'))
+            exclude(dependency('org.apache.logging.log4j:log4j-slf4j18-impl:.*'))
+            exclude(dependency('org.apache.commons:commons-lang3:.*'))
+            exclude(dependency('com.google.code.gson:.*'))
+            exclude(dependency('javax:.*'))
+            exclude(dependency('org.jetbrains:.*'))
+            exclude(dependency('net.java.dev.jna:.*'))
+            exclude(dependency('org.slf4j:.*'))
+
+            exclude 'org/slf4j/**'
+            exclude 'META-INF/versions/9/**'
+            exclude 'module-info.class'
+            exclude 'org/apache/commons/lang3/**'
+
+            relocate 'org.apache.commons.collections4', shade_group + 'apache.commons.collections4'
+            relocate 'javax.annotation', shade_group + 'javax.annotation'
+            relocate 'gnu.trove', shade_group + 'gnu.trove'
+            relocate 'com.fasterxml', shade_group + 'fasterxml'
+            relocate 'club.minnced', shade_group + 'club.minnced'
+            relocate 'com.iwebpp', shade_group + 'iwebpp'
+            relocate 'com.jagrosh', shade_group + 'jagrosh'
+            relocate 'com.neovisionaries', shade_group + 'neovisionaries'
+            relocate 'net.dv8tion', shade_group + 'dv8tion'
+            relocate 'okhttp3', shade_group + 'okhttp3'
+            relocate 'okio', shade_group + 'okio'
+            relocate 'org.json', shade_group + 'json'
+            relocate 'pw.chew', shade_group + 'chew'
+            relocate 'oshi', shade_group + 'oshi'
+            relocate 'kotlin', shade_group + 'kotlin'
+            relocate 'org.jasypt', shade_group + 'jasypt'
+            relocate 'com.google.common', shade_group + 'google.common'
+            relocate 'com.google.thirdparty', shade_group + 'google.thirdparty'
+            relocate 'edu', shade_group + 'edu'
+            relocate 'io', shade_group + 'io'
+            relocate 'javassist', shade_group + 'javassist'
+            relocate 'org.apache.commons.beanutils', shade_group + 'org.apache.commons.beanutils'
+            relocate 'org.apache.commons.collections', shade_group + 'org.apache.commons.collections'
+            relocate 'org.apache.commons.jxpath', shade_group + 'org.apache.commons.jxpath'
+            relocate 'org.apache.commons.logging', shade_group + 'org.apache.commons.logging'
+            relocate 'org.reflections', shade_group + 'org.reflections'
+            relocate 'net.bytebuddy', shade_group + 'net.bytebuddy'
+            relocate 'org.checkerframework', shade_group + 'org.checkerframework'
+            relocate 'com.google.errorprone', shade_group + 'com.google.errorprone'
+        }
+
+        exclude "META-INF/maven/**"
+        exclude "META-INF/versions/**"
+        exclude "META-INF/proguard/**"
+        exclude "META-INF/*LICENSE"
+        exclude "META-INF/*NOTICE"
+        exclude "META-INF/*kotlin_module"
+        exclude "META-INF/*.txt"
+        exclude "META-INF/services/com.fasterxml.**"
+    }
+
+    jar {
+        setArchiveClassifier("slim")
+        finalizedBy(shadowJar)
+
+        manifest {
+            attributes([
+                    'Specification-Title'     : mod_id,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestamp'               : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Built-On-Minecraft'      : minecraft_version
+            ])
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release = 17
+    }
+
+    tasks.withType(GenerateModuleMetadata).configureEach {
+        enabled = false
+    }
+
+    shadowJar.doLast {
+        delete(jar.getArchiveFile())
+    }
+
+    tasks.register('javadocJar', Jar) {
+        from javadoc
+        setArchiveClassifier('javadoc')
+    }
+
+    tasks.register('sourcesJar', Jar) {
+        from sourceSets.main.allJava
+        setArchiveClassifier('sources')
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifact(shadowJar) {
+                    builtBy shadowJar
+                }
+                artifact sourcesJar
+                artifact javadocJar
+            }
+        }
+
+        repositories {
+            maven orion.getPublishingMaven()
+        }
+    }
+
+    javadoc.enabled = true
+}

@@ -1,0 +1,39 @@
+import com.hypherionmc.modpublisher.properties.ReleaseType
+archivesBaseName = "${mod_name.replace(" ", "")}-Universal"
+
+dependencies {
+    // Do not edit or remove
+    implementation project(":Common")
+}
+
+publisher {
+    apiKeys {
+        modrinth(System.getenv("MODRINTH_TOKEN"))
+        curseforge(System.getenv("CURSE_TOKEN"))
+        nightbloom(System.getenv("PLATFORM_KEY"))
+    }
+
+    setCurseID(curse_id)
+    setModrinthID(modrinth_id)
+    setNightbloomID("sdlink")
+    setChangelog(project.rootProject.file("changelog.md"))
+    setReleaseType(ReleaseType.RELEASE)
+    setChangelog(project.file("changelog.md"))
+    setDisplayName("[1.18.2 - 1.21.3] Simple Discord Link Universal - ${project.version}")
+    setGameVersions("1.18.2", "1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
+    setLoaders("forge", "fabric", "quilt", "neoforge")
+    setCurseEnvironment("both")
+    setArtifact(shadowJar)
+
+    modrinthDepends {
+        required("Nn8Wasaq")
+    }
+
+    curseDepends {
+        required("craterlib")
+    }
+
+    nightbloomDepends {
+        required("craterlib")
+    }
+}
