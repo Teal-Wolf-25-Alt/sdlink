@@ -5,11 +5,11 @@
 package com.hypherionmc.sdlink.core.discord.commands.slash.verification;
 
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
-import com.hypherionmc.sdlink.api.messaging.Result;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 
 import java.util.List;

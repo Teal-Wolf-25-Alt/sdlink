@@ -5,8 +5,8 @@
 package com.hypherionmc.sdlink.core.services.helpers;
 
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
-import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.api.messaging.Result;
+import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.tuple.Pair;

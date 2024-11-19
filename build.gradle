@@ -66,7 +66,6 @@ subprojects {
         shade("org.apache.commons:commons-collections4:${commons4}")
         shade("com.github.oshi:oshi-core:${oshi}")
         shade("org.jasypt:jasypt:${jasypt}:lite")
-        shade("com.hypherionmc.jsondb:jsondb-core:${json_db}")
 
         implementation "com.hypherionmc.craterlib:CraterLib-Common-1.20.4:${craterlib}:dev"
         implementation "nightbloom:mmode:${maintenance_mode}"
@@ -153,7 +152,6 @@ subprojects {
             relocate 'com.google.common', shade_group + 'google.common'
             relocate 'com.google.thirdparty', shade_group + 'google.thirdparty'
             relocate 'edu', shade_group + 'edu'
-            relocate 'io.jsondb', shade_group + 'io.jsondb'
             relocate 'javassist', shade_group + 'javassist'
             relocate 'org.apache.commons.beanutils', shade_group + 'org.apache.commons.beanutils'
             relocate 'org.apache.commons.collections', shade_group + 'org.apache.commons.collections'
@@ -173,6 +171,8 @@ subprojects {
         exclude "META-INF/*kotlin_module"
         exclude "META-INF/*.txt"
         exclude "META-INF/services/com.fasterxml.**"
+
+        minimize()
     }
 
     jar {

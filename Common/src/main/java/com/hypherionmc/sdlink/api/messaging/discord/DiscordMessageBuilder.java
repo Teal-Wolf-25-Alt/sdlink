@@ -7,9 +7,9 @@ package com.hypherionmc.sdlink.api.messaging.discord;
 import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.api.accounts.DiscordUser;
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageIgnoreConfig;
-import com.hypherionmc.sdlink.api.messaging.MessageType;
 
 import java.util.regex.Pattern;
 

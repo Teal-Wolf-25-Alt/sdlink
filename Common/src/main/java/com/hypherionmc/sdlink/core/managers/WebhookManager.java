@@ -5,11 +5,11 @@
 package com.hypherionmc.sdlink.core.managers;
 
 import club.minnced.discord.webhook.WebhookClient;
+import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.api.messaging.MessageDestination;
-import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.core.messaging.SDLinkWebhookClientBuilder;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import org.jetbrains.annotations.Nullable;

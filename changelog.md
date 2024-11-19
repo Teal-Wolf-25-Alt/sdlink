@@ -16,6 +16,7 @@
 - Fixed issues with geyser/floodgate servers using access control
 - Fixed Linked Commands not respecting discord role ordering
 - Finally fixed inverted Vanish Api Check
+- Fixed Channel Overrides and Access Control not reloading without server restart
 
 **New Features**:
 
@@ -25,3 +26,4 @@
 - Added a basic developer api. Please request additional features on GitHub/Discord
 - Added `sdconfigeditor` minecraft command, to integrate with our Online Config Editor
 - Support for Paper. Only currently available on Modrinth and NightBloom
+- Removed reliance on JSONDB and greatly reduce mod size

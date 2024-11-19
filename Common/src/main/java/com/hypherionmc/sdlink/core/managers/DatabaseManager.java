@@ -6,8 +6,8 @@ package com.hypherionmc.sdlink.core.managers;
 
 import com.hypherionmc.sdlink.core.database.HiddenPlayers;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
-import io.jsondb.JsonDBTemplate;
-import io.jsondb.annotation.Document;
+import com.hypherionmc.sdlink.core.jsondb.JsonDatabase;
+import com.hypherionmc.sdlink.core.jsondb.annotations.Document;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,7 +21,7 @@ public final class DatabaseManager {
 
     public static final DatabaseManager INSTANCE = new DatabaseManager();
 
-    private final JsonDBTemplate sdlinkDatabase = new JsonDBTemplate("sdlinkstorage", "com.hypherionmc.sdlink.core.database");
+    private final JsonDatabase sdlinkDatabase = new JsonDatabase("sdlinkstorage");
 
     private final Set<Class<?>> tables = new LinkedHashSet<>() {{
         add(SDLinkAccount.class);
@@ -33,13 +33,7 @@ public final class DatabaseManager {
     }
 
     public void initialize() {
-        tables.forEach(t -> {
-            if (!sdlinkDatabase.collectionExists(t)) {
-                sdlinkDatabase.createCollection(t);
-            }
-
-            sdlinkDatabase.reloadCollection(t.getAnnotation(Document.class).collection());
-        });
+        tables.forEach(t -> sdlinkDatabase.reloadCollection(t.getAnnotation(Document.class).collection(), t));
     }
 
     public void updateEntry(Object t) {
@@ -53,12 +47,12 @@ public final class DatabaseManager {
     }
 
     public void deleteEntry(Object t, Class<?> clazz) {
-        sdlinkDatabase.remove(t, clazz);
+        sdlinkDatabase.remove(t);
         reload(t.getClass());
     }
 
     private void reload(Class<?> clazz) {
-        sdlinkDatabase.reloadCollection(clazz.getAnnotation(Document.class).collection());
+        sdlinkDatabase.reloadCollection(clazz.getAnnotation(Document.class).collection(), clazz);
     }
 
     public <T> T findById(Object id, Class<T> entityClass) {
@@ -73,6 +67,6 @@ public final class DatabaseManager {
 
     public <T> List<T> findAll(Class<T> tClass) {
         reload(tClass);
-        return sdlinkDatabase.findAll(tClass);
+        return sdlinkDatabase.getCollection(tClass);
     }
 }

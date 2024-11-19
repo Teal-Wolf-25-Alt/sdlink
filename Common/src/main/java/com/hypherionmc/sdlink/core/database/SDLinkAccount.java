@@ -4,14 +4,14 @@
  */
 package com.hypherionmc.sdlink.core.database;
 
-import io.jsondb.annotation.Document;
-import io.jsondb.annotation.Id;
+import com.hypherionmc.sdlink.core.jsondb.annotations.Document;
+import com.hypherionmc.sdlink.core.jsondb.annotations.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-@Document(collection = "verifiedaccounts", schemaVersion = "1.0")
+@Document(collection = "verifiedaccounts")
 public final class SDLinkAccount {
 
     @Id

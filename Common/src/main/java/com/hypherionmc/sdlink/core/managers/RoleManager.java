@@ -33,6 +33,10 @@ public final class RoleManager {
      * Check and load the roles required by the bot
      */
     public static void loadRequiredRoles(AtomicInteger errCount, StringBuilder builder) {
+        verificationRoles.clear();
+        deniedRoles.clear();
+        verifiedRole = null;
+
         if (SDLinkConfig.INSTANCE.accessControl.enabled) {
             SDLinkConfig.INSTANCE.accessControl.requiredRoles.forEach(r -> {
                 Role role = getRole(errCount, builder, "Access Control", r);

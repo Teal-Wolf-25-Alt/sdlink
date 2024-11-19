@@ -3,8 +3,8 @@ package com.hypherionmc.sdlink.platform;
 import com.hypherionmc.craterlib.nojang.commands.BridgedFakePlayer;
 import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
 import com.hypherionmc.craterlib.utils.ChatUtils;
-import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.api.messaging.Result;
+import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import shadow.kyori.adventure.text.Component;
 
 import java.util.concurrent.CompletableFuture;

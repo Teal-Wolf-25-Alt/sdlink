@@ -11,7 +11,7 @@ public final class ReloadBotCommand {
                 .requiresPermission(4)
                 .withNode("sdlink.reloadbot")
                 .execute(ctx -> {
-                    ServerEvents.reloadBot();
+                    ServerEvents.reloadBot(true);
                     return 1;
                 });
 

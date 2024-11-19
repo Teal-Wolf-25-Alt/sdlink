@@ -13,18 +13,18 @@ import com.hypherionmc.craterlib.utils.ChatUtils;
 import com.hypherionmc.sdlink.SDLinkConstants;
 import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
+import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
+import com.hypherionmc.sdlink.api.events.VerificationEvent;
+import com.hypherionmc.sdlink.api.messaging.MessageType;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
+import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
-import com.hypherionmc.sdlink.api.events.VerificationEvent;
 import com.hypherionmc.sdlink.core.managers.CacheManager;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
-import com.hypherionmc.sdlink.api.messaging.MessageType;
-import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
-import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
 import com.hypherionmc.sdlink.networking.MentionsSyncPacket;
 import com.hypherionmc.sdlink.platform.SDLinkMCPlatform;
 import com.hypherionmc.sdlink.server.commands.*;
@@ -54,8 +54,8 @@ public final class ServerEvents {
         BotController.INSTANCE.initializeBot();
     }
 
-    public static void reloadBot() {
-        BotController.reloadInstance();
+    public static void reloadBot(boolean isReload) {
+        BotController.reloadInstance(isReload);
     }
 
     @CraterEventListener
@@ -116,12 +116,12 @@ public final class ServerEvents {
             DiscordMessage message = new DiscordMessageBuilder(MessageType.STOP)
                     .message(SDLinkConfig.INSTANCE.messageFormatting.serverStopped)
                     .author(DiscordAuthor.SERVER)
-                    .afterSend(() -> BotController.INSTANCE.shutdownBot())
+                    .afterSend(() -> BotController.INSTANCE.shutdownBot(false))
                     .build();
 
             message.sendMessage();
         } else {
-            BotController.INSTANCE.shutdownBot();
+            BotController.INSTANCE.shutdownBot(false);
         }
     }
 

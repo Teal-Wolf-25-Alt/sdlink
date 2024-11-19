@@ -4,10 +4,10 @@
  */
 package com.hypherionmc.sdlink.core.managers;
 
+import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.config.impl.MessageChannelConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
-import com.hypherionmc.sdlink.api.messaging.MessageType;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
@@ -29,17 +29,11 @@ public final class CacheManager {
     private static final Set<Member> discordMembers = new HashSet<>();
 
     @Getter
-    public static final HashMap<MessageType, MessageChannelConfig.DestinationObject> messageDestinations = new HashMap<>() {{
-        put(MessageType.CHAT, SDLinkConfig.INSTANCE.messageDestinations.chat);
-        put(MessageType.START, SDLinkConfig.INSTANCE.messageDestinations.start);
-        put(MessageType.STOP, SDLinkConfig.INSTANCE.messageDestinations.stop);
-        put(MessageType.JOIN, SDLinkConfig.INSTANCE.messageDestinations.join);
-        put(MessageType.LEAVE, SDLinkConfig.INSTANCE.messageDestinations.leave);
-        put(MessageType.ADVANCEMENTS, SDLinkConfig.INSTANCE.messageDestinations.advancements);
-        put(MessageType.DEATH, SDLinkConfig.INSTANCE.messageDestinations.death);
-        put(MessageType.COMMANDS, SDLinkConfig.INSTANCE.messageDestinations.commands);
-        put(MessageType.CUSTOM, SDLinkConfig.INSTANCE.messageDestinations.custom);
-    }};
+    public static final HashMap<MessageType, MessageChannelConfig.DestinationObject> messageDestinations = new HashMap<>();
+
+    static {
+        reloadChannelConfigCache();
+    }
 
     public static void loadCache() {
         loadChannelCache();
@@ -90,6 +84,19 @@ public final class CacheManager {
             userCache.put("@" + r.getEffectiveName(), r.getAsMention());
             discordMembers.add(r);
         });
+    }
+
+    public static void reloadChannelConfigCache() {
+        messageDestinations.clear();
+        messageDestinations.put(MessageType.CHAT, SDLinkConfig.INSTANCE.messageDestinations.chat);
+        messageDestinations.put(MessageType.START, SDLinkConfig.INSTANCE.messageDestinations.start);
+        messageDestinations.put(MessageType.STOP, SDLinkConfig.INSTANCE.messageDestinations.stop);
+        messageDestinations.put(MessageType.JOIN, SDLinkConfig.INSTANCE.messageDestinations.join);
+        messageDestinations.put(MessageType.LEAVE, SDLinkConfig.INSTANCE.messageDestinations.leave);
+        messageDestinations.put(MessageType.ADVANCEMENTS, SDLinkConfig.INSTANCE.messageDestinations.advancements);
+        messageDestinations.put(MessageType.DEATH, SDLinkConfig.INSTANCE.messageDestinations.death);
+        messageDestinations.put(MessageType.COMMANDS, SDLinkConfig.INSTANCE.messageDestinations.commands);
+        messageDestinations.put(MessageType.CUSTOM, SDLinkConfig.INSTANCE.messageDestinations.custom);
     }
 
 }

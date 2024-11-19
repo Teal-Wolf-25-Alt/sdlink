@@ -5,11 +5,11 @@
 package com.hypherionmc.sdlink.util;
 
 import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
-import com.hypherionmc.sdlink.core.config.SDLinkConfig;
-import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
 import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
+import com.hypherionmc.sdlink.core.config.SDLinkConfig;
+import com.hypherionmc.sdlink.core.discord.BotController;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Appender;

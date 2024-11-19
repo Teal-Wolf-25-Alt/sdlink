@@ -6,7 +6,6 @@ package com.hypherionmc.sdlink.core.discord.commands;
 
 import com.hypherionmc.craterlib.core.event.CraterEventBus;
 import com.hypherionmc.sdlink.api.events.SlashCommandRegistrationEvent;
-import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.HelpSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.PlayerListSlashCommand;
 import com.hypherionmc.sdlink.core.discord.commands.slash.general.ServerStatusSlashCommand;

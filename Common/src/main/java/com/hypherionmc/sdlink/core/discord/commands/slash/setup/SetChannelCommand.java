@@ -4,10 +4,10 @@
  */
 package com.hypherionmc.sdlink.core.discord.commands.slash.setup;
 
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
-import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.channel.ChannelType;

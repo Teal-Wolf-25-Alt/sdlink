@@ -8,6 +8,7 @@ import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.commands.CommandManager;
 import com.hypherionmc.sdlink.core.discord.events.DiscordEventHandler;
+import com.hypherionmc.sdlink.core.editor.ConfigEditorClient;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.EmbedManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
@@ -91,8 +92,8 @@ public final class BotController {
         new BotController(logger, false);
     }
 
-    public static void reloadInstance() {
-        BotController.INSTANCE.shutdownBot();
+    public static void reloadInstance(boolean isReload) {
+        BotController.INSTANCE.shutdownBot(isReload);
         new BotController(INSTANCE.logger, true);
         BotController.INSTANCE.initializeBot();
     }
@@ -176,7 +177,7 @@ public final class BotController {
     /**
      * Shutdown the Bot
      */
-    public void shutdownBot() {
+    public void shutdownBot(boolean isReload) {
         try {
             shutdownCalled = true;
             if (_jda != null) {
@@ -192,6 +193,12 @@ public final class BotController {
             // This is sometimes triggered on paper, but works as expected. So we just ignore it
         } catch (Exception e) {
             logger.error("Failed to shutdown bot.", e);
+        }
+
+        if (!isReload) {
+            try {
+                ConfigEditorClient.INSTANCE.closeServer();
+            } catch (Exception ignored) {}
         }
     }
 
