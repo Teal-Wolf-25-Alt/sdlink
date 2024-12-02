@@ -12,6 +12,7 @@ import com.hypherionmc.craterlib.nojang.world.entity.player.BridgedPlayer;
 import com.hypherionmc.craterlib.utils.ChatUtils;
 import com.hypherionmc.sdlink.SDLinkConstants;
 import com.hypherionmc.sdlink.api.accounts.DiscordAuthor;
+import com.hypherionmc.sdlink.api.accounts.DiscordUser;
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
 import com.hypherionmc.sdlink.api.events.VerificationEvent;
@@ -274,6 +275,15 @@ public final class ServerEvents {
             command = command.split(" ")[0];
         }
 
+        if (event.getPlayer() != null) {
+            MinecraftAccount mcAccount = MinecraftAccount.of(event.getPlayer().getGameProfile());
+            DiscordUser discordUser = mcAccount.getDiscordUser();
+
+            if (mcAccount != null && discordUser != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+                username = discordUser.getEffectiveName();
+            }
+        }
+
         DiscordMessage discordMessage = new DiscordMessageBuilder(MessageType.COMMANDS)
                 .author(DiscordAuthor.SERVER)
                 .message(
@@ -310,8 +320,17 @@ public final class ServerEvents {
             DatabaseManager.INSTANCE.updateEntry(account);
         }
 
+        String playerName = ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting);
+
+        MinecraftAccount mcAccount = MinecraftAccount.of(event.getPlayer().getGameProfile());
+        DiscordUser discordUser = mcAccount.getDiscordUser();
+
+        if (mcAccount != null && discordUser != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+            playerName = discordUser.getEffectiveName();
+        }
+
         DiscordMessage discordMessage = new DiscordMessageBuilder(MessageType.JOIN)
-                .message(SDLinkConfig.INSTANCE.messageFormatting.playerJoined.replace("%player%", ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting)))
+                .message(SDLinkConfig.INSTANCE.messageFormatting.playerJoined.replace("%player%", playerName))
                 .author(DiscordAuthor.SERVER
                         .setPlayerName(ChatUtils.resolve(event.getPlayer().getDisplayName(), false))
                         .setPlayerAvatar(event.getPlayer().getGameProfile().getName(), event.getPlayer().getStringUUID()))
@@ -341,10 +360,17 @@ public final class ServerEvents {
         if (!canSendMessage() || !SDLinkConfig.INSTANCE.chatConfig.playerLeave || (!SDLinkMCPlatform.INSTANCE.playerIsActive(event.getPlayer()) && !event.isFromVanish()))
             return;
 
-        String name = ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting);
+        String playerName = ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting);
+
+        MinecraftAccount mcAccount = MinecraftAccount.of(event.getPlayer().getGameProfile());
+        DiscordUser discordUser = mcAccount.getDiscordUser();
+
+        if (mcAccount != null && discordUser != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+            playerName = discordUser.getEffectiveName();
+        }
 
         DiscordMessage message = new DiscordMessageBuilder(MessageType.LEAVE)
-                .message(SDLinkConfig.INSTANCE.messageFormatting.playerLeft.replace("%player%", name))
+                .message(SDLinkConfig.INSTANCE.messageFormatting.playerLeft.replace("%player%", playerName))
                 .author(DiscordAuthor.SERVER
                         .setPlayerName(ChatUtils.resolve(event.getPlayer().getDisplayName(), false))
                         .setPlayerAvatar(event.getPlayer().getGameProfile().getName(), SDLinkMCPlatform.INSTANCE.getPlayerSkinUUID(event.getPlayer())))
@@ -368,6 +394,13 @@ public final class ServerEvents {
                 msg = msg.substring((name + " ").length());
             }
 
+            MinecraftAccount mcAccount = MinecraftAccount.of(event.getPlayer().getGameProfile());
+            DiscordUser discordUser = mcAccount.getDiscordUser();
+
+            if (mcAccount != null && discordUser != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+                name = discordUser.getEffectiveName();
+            }
+
             DiscordMessage message = new DiscordMessageBuilder(MessageType.DEATH)
                     .message(SDLinkConfig.INSTANCE.messageFormatting.death.replace("%player%", name).replace("%message%", msg))
                     .author(DiscordAuthor.SERVER
@@ -389,6 +422,13 @@ public final class ServerEvents {
                 String username = ChatUtils.resolve(event.getPlayer().getDisplayName(), SDLinkConfig.INSTANCE.chatConfig.formatting);
                 String finalAdvancement = ChatUtils.resolve(event.getTitle(), SDLinkConfig.INSTANCE.chatConfig.formatting);
                 String advancementBody = ChatUtils.resolve(event.getDescription(), SDLinkConfig.INSTANCE.chatConfig.formatting);
+
+                MinecraftAccount mcAccount = MinecraftAccount.of(event.getPlayer().getGameProfile());
+                DiscordUser discordUser = mcAccount.getDiscordUser();
+
+                if (mcAccount != null && discordUser != null && SDLinkConfig.INSTANCE.chatConfig.useLinkedNames) {
+                    username = discordUser.getEffectiveName();
+                }
 
                 DiscordMessage discordMessage = new DiscordMessageBuilder(MessageType.ADVANCEMENTS)
                         .message(SDLinkConfig.INSTANCE.messageFormatting.achievements.replace("%player%", username).replace("%title%", finalAdvancement).replace("%description%", advancementBody))

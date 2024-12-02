@@ -14,9 +14,10 @@
 - Fix Role Checker showing Role Role (instead of just Role)
 - Added missing permissions to invite link and permission checker
 - Fixed issues with geyser/floodgate servers using access control
-- Fixed Linked Commands not respecting discord role ordering
+- Fixed Linked Commands not respecting discord role ordering - [130](https://github.com/hypherionmc/sdlink/issues/130)
 - Finally fixed inverted Vanish Api Check
 - Fixed Channel Overrides and Access Control not reloading without server restart
+- Fix Join/Leave, Command Messages and Advancements not using linked player names - [131](https://github.com/hypherionmc/sdlink/issues/131)
 
 **New Features**:
 
