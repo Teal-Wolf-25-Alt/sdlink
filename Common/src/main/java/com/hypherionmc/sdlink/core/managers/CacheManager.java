@@ -31,10 +31,6 @@ public final class CacheManager {
     @Getter
     public static final HashMap<MessageType, MessageChannelConfig.DestinationObject> messageDestinations = new HashMap<>();
 
-    static {
-        reloadChannelConfigCache();
-    }
-
     public static void loadCache() {
         loadChannelCache();
         loadRoleCache();
@@ -42,6 +38,7 @@ public final class CacheManager {
     }
 
     public static void loadChannelCache() {
+        reloadChannelConfigCache();
         serverChannels.clear();
 
         JDA jda = BotController.INSTANCE.getJDA();
@@ -87,16 +84,18 @@ public final class CacheManager {
     }
 
     public static void reloadChannelConfigCache() {
-        messageDestinations.clear();
-        messageDestinations.put(MessageType.CHAT, SDLinkConfig.INSTANCE.messageDestinations.chat);
-        messageDestinations.put(MessageType.START, SDLinkConfig.INSTANCE.messageDestinations.start);
-        messageDestinations.put(MessageType.STOP, SDLinkConfig.INSTANCE.messageDestinations.stop);
-        messageDestinations.put(MessageType.JOIN, SDLinkConfig.INSTANCE.messageDestinations.join);
-        messageDestinations.put(MessageType.LEAVE, SDLinkConfig.INSTANCE.messageDestinations.leave);
-        messageDestinations.put(MessageType.ADVANCEMENTS, SDLinkConfig.INSTANCE.messageDestinations.advancements);
-        messageDestinations.put(MessageType.DEATH, SDLinkConfig.INSTANCE.messageDestinations.death);
-        messageDestinations.put(MessageType.COMMANDS, SDLinkConfig.INSTANCE.messageDestinations.commands);
-        messageDestinations.put(MessageType.CUSTOM, SDLinkConfig.INSTANCE.messageDestinations.custom);
+        try {
+            messageDestinations.clear();
+            messageDestinations.put(MessageType.CHAT, SDLinkConfig.INSTANCE.messageDestinations.chat);
+            messageDestinations.put(MessageType.START, SDLinkConfig.INSTANCE.messageDestinations.start);
+            messageDestinations.put(MessageType.STOP, SDLinkConfig.INSTANCE.messageDestinations.stop);
+            messageDestinations.put(MessageType.JOIN, SDLinkConfig.INSTANCE.messageDestinations.join);
+            messageDestinations.put(MessageType.LEAVE, SDLinkConfig.INSTANCE.messageDestinations.leave);
+            messageDestinations.put(MessageType.ADVANCEMENTS, SDLinkConfig.INSTANCE.messageDestinations.advancements);
+            messageDestinations.put(MessageType.DEATH, SDLinkConfig.INSTANCE.messageDestinations.death);
+            messageDestinations.put(MessageType.COMMANDS, SDLinkConfig.INSTANCE.messageDestinations.commands);
+            messageDestinations.put(MessageType.CUSTOM, SDLinkConfig.INSTANCE.messageDestinations.custom);
+        } catch (Exception ignored) {}
     }
 
 }

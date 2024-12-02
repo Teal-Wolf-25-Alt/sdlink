@@ -6,6 +6,7 @@ import com.hypherionmc.craterlib.core.config.annotations.NoConfigScreen;
 import com.hypherionmc.craterlib.core.config.formats.TomlConfigFormat;
 import com.hypherionmc.sdlink.core.config.impl.compat.CommonCompat;
 import com.hypherionmc.sdlink.core.config.impl.compat.MaintenanceModeCompat;
+import com.hypherionmc.sdlink.core.config.impl.compat.RoleSyncCompat;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import org.apache.commons.io.FileUtils;
 import shadow.hypherionmc.moonconfig.core.conversion.ObjectConverter;
@@ -22,7 +23,7 @@ public final class SDLinkCompatConfig extends AbstractConfig<SDLinkCompatConfig>
     // DO NOT REMOVE TRANSIENT HERE... OTHERWISE, THE STUPID CONFIG LIBRARY
     // WILL TRY TO WRITE THESE TO THE CONFIG
     public transient static SDLinkCompatConfig INSTANCE;
-    public transient static int configVer = 1;
+    public transient static int configVer = 2;
     public transient static boolean hasConfigLoaded = false;
     public transient static boolean wasReload = false;
 
@@ -37,6 +38,14 @@ public final class SDLinkCompatConfig extends AbstractConfig<SDLinkCompatConfig>
     @Path("maintenance_mode")
     @SpecComment("Manage Maintenance Mode integration")
     public MaintenanceModeCompat maintenanceModeCompat = new MaintenanceModeCompat();
+
+    @Path("luckperms")
+    @SpecComment("LuckPerms group syncing")
+    public RoleSyncCompat luckpermsCompat = new RoleSyncCompat();
+
+    @Path("ftbranks")
+    @SpecComment("FTB Ranks Rank syncing")
+    public RoleSyncCompat ftbRanksCompat = new RoleSyncCompat();
 
     public SDLinkCompatConfig() {
         this(false);

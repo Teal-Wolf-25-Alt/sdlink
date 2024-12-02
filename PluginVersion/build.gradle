@@ -14,11 +14,9 @@ shadowJar {
 
 publisher {
     apiKeys {
-        modrinth(System.getenv("MODRINTH_TOKEN"))
         nightbloom(System.getenv("PLATFORM_KEY"))
     }
 
-    setModrinthID(modrinth_id)
     setNightbloomID("sdlink")
     setProjectVersion(project.version.toString())
     setReleaseType(ReleaseType.ALPHA)
@@ -27,10 +25,6 @@ publisher {
     setGameVersions("1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.21", "1.21.1", "1.21.3")
     setLoaders("paper")
     setArtifact(shadowJar)
-
-    modrinthDepends {
-        required("Nn8Wasaq")
-    }
 
     nightbloomDepends {
         required("craterlib")

@@ -18,6 +18,7 @@ import com.hypherionmc.sdlink.api.events.VerificationEvent;
 import com.hypherionmc.sdlink.api.messaging.MessageType;
 import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessage;
 import com.hypherionmc.sdlink.api.messaging.discord.DiscordMessageBuilder;
+import com.hypherionmc.sdlink.compat.rolesync.RoleSync;
 import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
@@ -317,6 +318,8 @@ public final class ServerEvents {
                 .build();
 
         discordMessage.sendMessage();
+
+        RoleSync.INSTANCE.sync(event.getPlayer());
     }
 
     @CraterEventListener

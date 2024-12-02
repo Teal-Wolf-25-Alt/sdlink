@@ -7,6 +7,7 @@ package com.hypherionmc.sdlink.core.discord.events;
 import com.hypherionmc.craterlib.core.event.CraterEventBus;
 import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.api.events.SDLinkReadyEvent;
+import com.hypherionmc.sdlink.compat.rolesync.RoleSync;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
@@ -211,10 +212,18 @@ public final class DiscordEventHandler extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(@NotNull GuildMemberRoleAddEvent event) {
         DiscordRoleHooks.INSTANCE.onRoleAdded(event);
+
+        event.getRoles().forEach(role -> {
+            RoleSync.INSTANCE.roleAddedToMember(event.getMember(), role, event.getGuild());
+        });
     }
 
     @Override
     public void onGuildMemberRoleRemove(@NotNull GuildMemberRoleRemoveEvent event) {
         DiscordRoleHooks.INSTANCE.onRoleRemoved(event);
+
+        event.getRoles().forEach(role -> {
+            RoleSync.INSTANCE.roleRemovedFromMember(event.getMember(), role, event.getGuild());
+        });
     }
 }

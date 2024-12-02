@@ -13,4 +13,12 @@ public final class CommonCompat {
     @SpecComment("Should SDLink integrate with FTB Essentials")
     public boolean ftbessentials = true;
 
+    @Path("ftbranks")
+    @SpecComment("Should SDLink integrate with FTB Ranks")
+    public boolean ftbranks = true;
+
+    @Path("luckperms")
+    @SpecComment("Should SDLink integrate with Luckperms (Group Syncing only)")
+    public boolean luckperms = true;
+
 }

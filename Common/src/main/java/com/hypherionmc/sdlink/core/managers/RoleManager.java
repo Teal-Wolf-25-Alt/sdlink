@@ -4,6 +4,7 @@
  */
 package com.hypherionmc.sdlink.core.managers;
 
+import com.hypherionmc.sdlink.core.config.SDLinkCompatConfig;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.util.SDLinkUtils;
@@ -29,12 +30,20 @@ public final class RoleManager {
     @Getter
     private static Role verifiedRole = null;
 
+    @Getter
+    private static Set<Role> luckPermsRoles = new HashSet<>();
+
+    @Getter
+    private static Set<Role> ftbRanksRoles = new HashSet<>();
+
     /**
      * Check and load the roles required by the bot
      */
     public static void loadRequiredRoles(AtomicInteger errCount, StringBuilder builder) {
         verificationRoles.clear();
         deniedRoles.clear();
+        luckPermsRoles.clear();
+        ftbRanksRoles.clear();
         verifiedRole = null;
 
         if (SDLinkConfig.INSTANCE.accessControl.enabled) {
@@ -55,6 +64,24 @@ public final class RoleManager {
             if (!SDLinkUtils.isNullOrEmpty(SDLinkConfig.INSTANCE.accessControl.verifiedRole)) {
                 verifiedRole = getRole(errCount, builder, "Verified Player", SDLinkConfig.INSTANCE.accessControl.verifiedRole);
             }
+        }
+
+        if (SDLinkCompatConfig.INSTANCE.common.ftbranks) {
+            SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.forEach(s -> {
+                Role role = getRole(errCount, builder, "FTB Ranks Sync", s.role);
+
+                if (role != null)
+                    ftbRanksRoles.add(role);
+            });
+        }
+
+        if (SDLinkCompatConfig.INSTANCE.common.luckperms) {
+            SDLinkCompatConfig.INSTANCE.luckpermsCompat.syncs.forEach(s -> {
+                Role role = getRole(errCount, builder, "LuckPerms Sync", s.role);
+
+                if (role != null)
+                    luckPermsRoles.add(role);
+            });
         }
     }
 

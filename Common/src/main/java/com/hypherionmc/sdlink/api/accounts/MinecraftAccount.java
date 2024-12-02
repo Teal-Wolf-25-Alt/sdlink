@@ -68,6 +68,21 @@ public final class MinecraftAccount {
         return new MinecraftAccount(profile.getName(), profile.getId());
     }
 
+    public BridgedGameProfile toGameProfile() {
+        return BridgedGameProfile.mojang(uuid, username);
+    }
+
+    @Nullable
+    public static MinecraftAccount fromDiscordId(String discordId) {
+        SDLinkAccount account = DatabaseManager.INSTANCE.getCollection(SDLinkAccount.class).stream().filter(a -> a.getDiscordID() != null && a.getDiscordID().equals(discordId)).findFirst().orElse(null);
+
+        if (account == null) {
+            return null;
+        }
+
+        return MinecraftAccount.of(account);
+    }
+
     public boolean isAccountVerified() {
         SDLinkAccount account = getStoredAccount();
 
