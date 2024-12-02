@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.UserSnowflake;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -107,7 +108,21 @@ public class LuckPermsSync extends AbstractRoleSyncer {
         if (!SDLinkCompatConfig.INSTANCE.common.luckperms || !SDLinkCompatConfig.INSTANCE.luckpermsCompat.syncToDiscord)
             return;
 
-        updateLuckpermsGroup(event.getIdentifier(), event.toProfile(), true);
+        // TODO REMOVE THIS TEMPORARY FIX ON NEXT CRATERLIB RELEASE
+        String identifier = null;
+
+        try {
+            Field identifierField = event.getClass().getDeclaredField("identifier");
+            identifierField.setAccessible(true);
+            identifier = identifierField.get(event).toString();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if (identifier == null)
+            return;
+
+        updateLuckpermsGroup(identifier, event.toProfile(), true);
     }
 
     @CraterEventListener
@@ -118,7 +133,21 @@ public class LuckPermsSync extends AbstractRoleSyncer {
         if (!SDLinkCompatConfig.INSTANCE.common.luckperms || !SDLinkCompatConfig.INSTANCE.luckpermsCompat.syncToDiscord)
             return;
 
-        updateLuckpermsGroup(event.getIdentifier(), event.toProfile(), false);
+        // TODO REMOVE THIS TEMPORARY FIX ON NEXT CRATERLIB RELEASE
+        String identifier = null;
+
+        try {
+            Field identifierField = event.getClass().getDeclaredField("identifier");
+            identifierField.setAccessible(true);
+            identifier = identifierField.get(event).toString();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if (identifier == null)
+            return;
+
+        updateLuckpermsGroup(identifier, event.toProfile(), false);
     }
 
     private void updateLuckpermsGroup(String rank, BridgedGameProfile profile, boolean add) {
