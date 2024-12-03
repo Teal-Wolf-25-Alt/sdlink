@@ -30,3 +30,22 @@ publisher {
         required("craterlib")
     }
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            group "com.hypherionmc.sdlink"
+            artifactId project.archivesBaseName
+
+            artifact(shadowJar) {
+                builtBy shadowJar
+            }
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+
+    repositories {
+        maven orion.getPublishingMaven()
+    }
+}

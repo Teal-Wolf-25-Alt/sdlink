@@ -16,6 +16,7 @@ publisher {
     setCurseID(curse_id)
     setModrinthID(modrinth_id)
     setNightbloomID("sdlink")
+    setProjectVersion(project.version.toString())
     setChangelog(project.rootProject.file("changelog.md"))
     setReleaseType(ReleaseType.RELEASE)
     setDisplayName("[1.18.2 - 1.21.3] Simple Discord Link Universal - ${project.version}")
@@ -34,5 +35,24 @@ publisher {
 
     nightbloomDepends {
         required("craterlib")
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            group "com.hypherionmc.sdlink"
+            artifactId "sdlink"
+
+            artifact(shadowJar) {
+                builtBy shadowJar
+            }
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+
+    repositories {
+        maven orion.getPublishingMaven()
     }
 }
