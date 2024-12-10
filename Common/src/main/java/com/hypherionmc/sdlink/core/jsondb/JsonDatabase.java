@@ -43,6 +43,10 @@ public class JsonDatabase {
 
     // Reload collection into memory (optional cache can be added)
     public <T> List<T> reloadCollection(String collectionName, Class<T> clazz) {
+        if (!new File(dbFolder, collectionName + ".json").exists()) {
+            initializeCollection(clazz);
+        }
+
         lockRead(collectionName);
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(dbFolder, collectionName + ".json")))) {
             List<T> entries = new ArrayList<>();
