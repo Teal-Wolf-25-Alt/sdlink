@@ -223,7 +223,7 @@ public final class DiscordEventHandler extends ListenerAdapter {
         DiscordRoleHooks.INSTANCE.onRoleRemoved(event);
 
         event.getRoles().forEach(role -> {
-            RoleSync.INSTANCE.roleRemovedFromMember(event.getMember(), role, event.getGuild());
+            RoleSync.INSTANCE.roleRemovedFromMember(event.getMember(), role, event.getGuild(), null);
         });
     }
 }
