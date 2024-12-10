@@ -8,6 +8,7 @@ import com.hypherionmc.craterlib.core.event.CraterEventBus;
 import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.sdlink.api.events.VerificationEvent;
 import com.hypherionmc.sdlink.api.messaging.Result;
+import com.hypherionmc.sdlink.compat.rolesync.RoleSync;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
@@ -24,6 +25,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -178,6 +180,7 @@ public final class MinecraftAccount {
         if (account == null)
             return Result.error("We couldn't find your Minecraft account. Please ask the staff for assistance");
 
+        MinecraftAccount oldAccount = this;
         account.setDiscordID(null);
         account.setVerifyCode(null);
 
@@ -204,6 +207,14 @@ public final class MinecraftAccount {
                 BotController.INSTANCE.getLogger().error("Failed to update Nickname for {}", member.getEffectiveName(), e);
             }
         }
+
+        try {
+            List<Role> roles = member.getRoles();
+
+            for (Role role : roles) {
+                RoleSync.INSTANCE.roleRemovedFromMember(member, role, guild, oldAccount);
+            }
+        } catch (Exception ignored) {}
 
         CraterEventBus.INSTANCE.postEvent(new VerificationEvent.PlayerUnverified(this));
 

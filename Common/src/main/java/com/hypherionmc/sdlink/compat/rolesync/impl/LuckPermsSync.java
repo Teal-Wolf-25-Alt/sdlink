@@ -182,8 +182,8 @@ public class LuckPermsSync extends AbstractRoleSyncer {
     }
 
     @Override
-    void discordRoleChanged(Member member, Guild guild, Role role, boolean add) {
-        MinecraftAccount account = MinecraftAccount.fromDiscordId(member.getId());
+    void discordRoleChanged(Member member, Guild guild, Role role, boolean add, MinecraftAccount oldAccount) {
+        MinecraftAccount account = oldAccount != null ? oldAccount : MinecraftAccount.fromDiscordId(member.getId());
         if (account == null) return;
 
         RoleSyncCompat.Sync sync = SDLinkCompatConfig.INSTANCE.luckpermsCompat.syncs.stream().filter(s -> s.role.equalsIgnoreCase(role.getId())).findFirst().orElse(null);

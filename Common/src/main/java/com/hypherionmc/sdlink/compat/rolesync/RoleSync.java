@@ -64,13 +64,13 @@ public class RoleSync {
         }
     }
 
-    public void roleRemovedFromMember(Member member, Role role, Guild guild) {
+    public void roleRemovedFromMember(Member member, Role role, Guild guild, MinecraftAccount oldAccount) {
         if (ModloaderEnvironment.INSTANCE.isModLoaded("ftbranks")) {
-            FTBRankSync.INSTANCE.discordRoleRemovedFromMember(member, role, guild);
+            FTBRankSync.INSTANCE.discordRoleRemovedFromMember(member, role, guild, oldAccount);
         }
 
         if (ModloaderEnvironment.INSTANCE.isModLoaded("luckperms")) {
-            LuckPermsSync.INSTANCE.discordRoleRemovedFromMember(member, role, guild);
+            LuckPermsSync.INSTANCE.discordRoleRemovedFromMember(member, role, guild, oldAccount);
         }
     }
 

@@ -1,9 +1,11 @@
 package com.hypherionmc.sdlink.compat.rolesync.impl;
 
 import com.hypherionmc.craterlib.nojang.world.entity.player.BridgedPlayer;
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -26,13 +28,17 @@ public abstract class AbstractRoleSyncer {
         discordRoleChanged(member, guild, role, true);
     }
 
-    public void discordRoleRemovedFromMember(Member member, Role role, Guild guild) {
+    public void discordRoleRemovedFromMember(Member member, Role role, Guild guild, MinecraftAccount oldAccount) {
         if (ignoreEvent || !isSyncActive.get())
             return;
 
-        discordRoleChanged(member, guild, role, false);
+        discordRoleChanged(member, guild, role, false, oldAccount);
     }
 
-    abstract void discordRoleChanged(Member member, Guild guild, Role role, boolean added);
+    void discordRoleChanged(Member member, Guild guild, Role role, boolean added) {
+        this.discordRoleChanged(member, guild, role, added, null);
+    }
+
+    abstract void discordRoleChanged(Member member, Guild guild, Role role, boolean added, @Nullable MinecraftAccount oldAccount);
 
 }

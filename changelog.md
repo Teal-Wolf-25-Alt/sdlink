@@ -2,30 +2,8 @@
 - [Migration guide](https://sdlink.fdd-docs.com/migration/) for V2 users
 - [Online Config Editor](https://editor.firstdark.dev)
 
-
 *Requires CraterLib 2.1.2 or newer*
-
-**Breaking Changes**:
-
-- This update potentially breaks real verified accounts on "offline" servers. If that's the case, unverify and reverify your account.
 
 **Bug Fixes**:
 
-- Fix Role Checker showing Role Role (instead of just Role)
-- Added missing permissions to invite link and permission checker
-- Fixed issues with geyser/floodgate servers using access control
-- Fixed Linked Commands not respecting discord role ordering - [130](https://github.com/hypherionmc/sdlink/issues/130)
-- Finally fixed inverted Vanish Api Check
-- Fixed Channel Overrides and Access Control not reloading without server restart
-- Fix Join/Leave, Command Messages and Advancements not using linked player names - [131](https://github.com/hypherionmc/sdlink/issues/131)
-
-**New Features**:
-
-- Add Mini Message formatting support to access control messages
-- Add support for multiple, random bot statuses - [#44](https://github.com/hypherionmc/sdlink/issues/44)
-- Add option to trigger Minecraft commands on role changes [#77](https://github.com/hypherionmc/sdlink/issues/77)
-- Added a basic developer api. Please request additional features on GitHub/Discord
-- Added `sdconfigeditor` minecraft command, to integrate with our Online Config Editor
-- Support for Paper. Only currently available on [NightBloom](https://nightbloom.cc/project/sdlink/files?loader=paper)
-- Removed reliance on JSONDB and greatly reduce mod size
-- FTB Ranks and LuckPerms ranks syncing
+- Remove synced ranks when account is unverified - [#134](https://github.com/hypherionmc/sdlink/issues/134)
