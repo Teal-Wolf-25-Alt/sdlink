@@ -5,6 +5,7 @@ import com.hypherionmc.craterlib.api.events.server.*;
 import com.hypherionmc.craterlib.compat.FTBEssentials;
 import com.hypherionmc.craterlib.core.event.annot.CraterEventListener;
 import com.hypherionmc.craterlib.core.networking.CraterPacketNetwork;
+import com.hypherionmc.craterlib.core.platform.LoaderType;
 import com.hypherionmc.craterlib.core.platform.ModloaderEnvironment;
 import com.hypherionmc.craterlib.nojang.authlib.BridgedGameProfile;
 import com.hypherionmc.craterlib.nojang.server.BridgedMinecraftServer;
@@ -300,7 +301,7 @@ public final class ServerEvents {
     public void playerJoinEvent(CraterPlayerEvent.PlayerLoggedIn event) {
         // Allow Mentions
         try {
-            if (SDLinkConfig.INSTANCE.chatConfig.allowMentionsFromChat) {
+            if (SDLinkConfig.INSTANCE.chatConfig.allowMentionsFromChat && ModloaderEnvironment.INSTANCE.getLoaderType() != LoaderType.PAPER) {
                 MentionsSyncPacket packet = new MentionsSyncPacket(CacheManager.getServerRoles(), CacheManager.getServerChannels(), CacheManager.getUserCache());
                 CraterPacketNetwork.INSTANCE.getPacketRegistry().sendToClient(packet, event.getPlayer());
             }

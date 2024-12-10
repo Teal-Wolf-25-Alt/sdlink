@@ -7,3 +7,4 @@
 **Bug Fixes**:
 
 - Remove synced ranks when account is unverified - [#134](https://github.com/hypherionmc/sdlink/issues/134)
+- Don't try to sync mentions to client when running on paper
