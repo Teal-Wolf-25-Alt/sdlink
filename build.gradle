@@ -67,6 +67,7 @@ subprojects {
         shade("org.apache.commons:commons-collections4:${commons4}")
         shade("com.github.oshi:oshi-core:${oshi}")
         shade("org.jasypt:jasypt:${jasypt}:lite")
+        shade("net.fellbaum:jemoji:1.6.0")
 
         implementation "com.hypherionmc.craterlib:CraterLib-Common-1.20.4:${craterlib}:dev"
         implementation "nightbloom:mmode:${maintenance_mode}"
@@ -162,6 +163,7 @@ subprojects {
             relocate 'net.bytebuddy', shade_group + 'net.bytebuddy'
             relocate 'org.checkerframework', shade_group + 'org.checkerframework'
             relocate 'com.google.errorprone', shade_group + 'com.google.errorprone'
+            relocate 'net.fellbaum.jemoji', shade_group + 'net.fellbaum.jemoji'
         }
 
         exclude "META-INF/maven/**"

@@ -15,6 +15,8 @@ import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.fellbaum.jemoji.Emoji;
+import net.fellbaum.jemoji.EmojiManager;
 
 /**
  * @author HypherionSA
@@ -79,12 +81,15 @@ public final class DiscordMessageHooks {
                     Member replyMember = event.getMessage().getReferencedMessage().isWebhookMessage() ? SDLWebhookServerMember.of(event.getMessage().getReferencedMessage().getAuthor(), event.getGuild(), event.getJDA()) : event.getMessage().getReferencedMessage().getMember();
                     message = "Replied to " + replyMember.getEffectiveName() + ": " + message;
                     reply = event.getMessage().getReferencedMessage().getContentDisplay();
+                    reply = EmojiManager.replaceAllEmojis(reply, emoji -> !emoji.getDiscordAliases().isEmpty() ? emoji.getDiscordAliases().get(0) : emoji.getEmoji());
                 } catch (Exception e) {
                     if (SDLinkConfig.INSTANCE.generalConfig.debugging) {
                         e.printStackTrace();
                     }
                 }
             }
+
+            message = EmojiManager.replaceAllEmojis(message, emoji -> !emoji.getDiscordAliases().isEmpty() ? emoji.getDiscordAliases().get(0) : emoji.getEmoji());
 
             SDLinkPlatform.minecraftHelper.discordMessageReceived(member, message, reply);
         } catch (Exception e) {
