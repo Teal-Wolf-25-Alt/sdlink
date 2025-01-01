@@ -13,7 +13,9 @@ import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import com.hypherionmc.sdlink.core.managers.WebhookManager;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageReference;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
+import net.dv8tion.jda.api.entities.messages.MessageSnapshot;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.fellbaum.jemoji.Emoji;
 import net.fellbaum.jemoji.EmojiManager;
@@ -59,17 +61,24 @@ public final class DiscordMessageHooks {
             if (SDLinkConfig.INSTANCE.linkedCommands.enabled && !SDLinkConfig.INSTANCE.linkedCommands.permissions.isEmpty() && event.getMessage().getContentRaw().startsWith(SDLinkConfig.INSTANCE.linkedCommands.prefix))
                 return;
 
-            if (SDLinkConfig.INSTANCE.generalConfig.debugging) {
-                BotController.INSTANCE.getLogger().info("Sending Message from {}: {}", event.getAuthor().getName(), event.getMessage().getContentStripped());
+            String message = event.getMessage().getContentDisplay();
+
+            MessageReference messageReference = event.getMessage().getMessageReference();
+            if (messageReference != null && messageReference.getType() == MessageReference.MessageReferenceType.FORWARD) {
+                MessageSnapshot snapshot = event.getMessage().getMessageSnapshots().get(0);
+                message = snapshot.getContentRaw();
             }
 
-            String message = event.getMessage().getContentDisplay();
             String reply = null;
             if (message.isEmpty() && !event.getMessage().getAttachments().isEmpty()) {
                 message = (long) event.getMessage().getAttachments().size() + " attachments";
             }
 
-            if (!event.getMessage().getContentDisplay().isEmpty() && !event.getMessage().getAttachments().isEmpty()) {
+            if (SDLinkConfig.INSTANCE.generalConfig.debugging) {
+                BotController.INSTANCE.getLogger().info("Sending Message from {}: {}", event.getAuthor().getName(), message);
+            }
+
+            if (!message.isEmpty() && !event.getMessage().getAttachments().isEmpty()) {
                 message = message + " (+" + (long) event.getMessage().getAttachments().size() + " attachments)";
             }
 
