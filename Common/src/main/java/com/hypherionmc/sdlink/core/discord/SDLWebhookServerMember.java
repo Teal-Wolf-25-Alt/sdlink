@@ -41,25 +41,25 @@ public final class SDLWebhookServerMember implements Member {
     @NotNull
     @Override
     public EnumSet<Permission> getPermissions() {
-        return Permission.getPermissions(Permission.ALL_PERMISSIONS);
+        return Permission.getPermissions(Permission.getRaw(Permission.values()));
     }
 
     @NotNull
     @Override
     public EnumSet<Permission> getPermissions(GuildChannel guildChannel) {
-        return Permission.getPermissions(Permission.ALL_PERMISSIONS);
+        return Permission.getPermissions(Permission.getRaw(Permission.values()));
     }
 
     @NotNull
     @Override
     public EnumSet<Permission> getPermissionsExplicit() {
-        return Permission.getPermissions(Permission.ALL_PERMISSIONS);
+        return Permission.getPermissions(Permission.getRaw(Permission.values()));
     }
 
     @NotNull
     @Override
     public EnumSet<Permission> getPermissionsExplicit(@NotNull GuildChannel guildChannel) {
-        return Permission.getPermissions(Permission.ALL_PERMISSIONS);
+        return Permission.getPermissions(Permission.getRaw(Permission.values()));
     }
 
     @Override
