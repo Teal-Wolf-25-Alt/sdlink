@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.StandardGuildMessageChannel;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,7 @@ public final class BotReadyHooks {
      *
      * @param event The {@link ReadyEvent}
      */
-    public static void startActivityUpdates(ReadyEvent event) {
+    public static void startActivityUpdates(StatusChangeEvent event) {
         if (SDLinkConfig.INSTANCE.botConfig.statusUpdateInterval > 0) {
             BotController.INSTANCE.updatesManager.scheduleAtFixedRate(() -> {
                 try {

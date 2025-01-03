@@ -22,6 +22,7 @@ import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.PermissionChecker;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
@@ -93,7 +94,7 @@ public final class DiscordEventHandler extends ListenerAdapter {
      * The bot is connected to discord and ready to begin sending messages
      */
     @Override
-    public void onReady(@NotNull ReadyEvent event) {
+    public void onStatusChange(StatusChangeEvent event) {
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED) {
             BotController.INSTANCE.getLogger().info("Successfully connected to discord");
 
