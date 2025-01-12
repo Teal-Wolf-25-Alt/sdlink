@@ -11,7 +11,11 @@
 - Don't try to sync mentions to client when running on paper
 - Fix database engine not regenerating database files when they are deleted while the server is running
 - Fixed Forwarded messages not being relayed to discord
-- Fixed bot getting stuck in not-ready state at random
+- Added checker to prevent bot from getting stuck in NotReady state
+
+**New Features**:
+
+- Implemented a basic message spam detector
 
 **Technical Changes**:
 

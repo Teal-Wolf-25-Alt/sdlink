@@ -43,6 +43,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author HypherionSA
@@ -51,6 +53,8 @@ import java.util.Optional;
  * and use these hooks to trigger that code
  */
 public final class DiscordEventHandler extends ListenerAdapter {
+
+    private boolean isStuckInNotReady = false;
 
     /**
      * Discord yeeted the bot connection
@@ -95,6 +99,11 @@ public final class DiscordEventHandler extends ListenerAdapter {
      */
     @Override
     public void onStatusChange(StatusChangeEvent event) {
+        if (event.getJDA().getStatus() == JDA.Status.LOADING_SUBSYSTEMS) {
+            isStuckInNotReady = true;
+            startReadyDetection(event.getJDA());
+        }
+
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED) {
             BotController.INSTANCE.getLogger().info("Successfully connected to discord");
 
@@ -226,5 +235,14 @@ public final class DiscordEventHandler extends ListenerAdapter {
         event.getRoles().forEach(role -> {
             RoleSync.INSTANCE.roleRemovedFromMember(event.getMember(), role, event.getGuild(), null);
         });
+    }
+
+    private void startReadyDetection(JDA jda) {
+        BotController.INSTANCE.updatesManager.scheduleAtFixedRate(() -> {
+            if (isStuckInNotReady && jda.getStatus() == JDA.Status.CONNECTED) {
+                onStatusChange(new StatusChangeEvent(jda, jda.getStatus(), JDA.Status.LOADING_SUBSYSTEMS));
+                isStuckInNotReady = false;
+            }
+        }, 5, 5, TimeUnit.SECONDS);
     }
 }
