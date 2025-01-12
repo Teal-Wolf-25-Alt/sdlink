@@ -9,10 +9,7 @@ import com.hypherionmc.sdlink.core.config.SDLinkConfig;
 import com.hypherionmc.sdlink.core.discord.commands.CommandManager;
 import com.hypherionmc.sdlink.core.discord.events.DiscordEventHandler;
 import com.hypherionmc.sdlink.core.editor.ConfigEditorClient;
-import com.hypherionmc.sdlink.core.managers.DatabaseManager;
-import com.hypherionmc.sdlink.core.managers.EmbedManager;
-import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
-import com.hypherionmc.sdlink.core.managers.WebhookManager;
+import com.hypherionmc.sdlink.core.managers.*;
 import com.hypherionmc.sdlink.util.EncryptionUtil;
 import com.hypherionmc.sdlink.util.ThreadedEventManager;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -31,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author HypherionSA
@@ -40,7 +38,7 @@ public final class BotController {
 
     // Thread Execution Manager
     public final ExecutorService taskManager = Executors.newCachedThreadPool();
-    public final ScheduledExecutorService updatesManager = Executors.newScheduledThreadPool(2);
+    public final ScheduledExecutorService updatesManager = Executors.newScheduledThreadPool(4);
 
     // Public instance of this class that can be called anywhere
     public static BotController INSTANCE;
@@ -49,6 +47,9 @@ public final class BotController {
     private final EventWaiter eventWaiter = new EventWaiter();
     @Getter
     private final Logger logger;
+
+    @Getter
+    private final SpamManager spamManager;
 
     // Required Variables
     private JDA _jda;
@@ -81,6 +82,9 @@ public final class BotController {
 
         // Initialize Hidden players
         HiddenPlayersManager.INSTANCE.loadHiddenPlayers();
+
+        // Initialize spam detector with the following limits: 5 Messages in 2 seconds, with an expiration of 2 minutes
+        spamManager = new SpamManager(5, 2000, 120000, updatesManager);
     }
 
     /**

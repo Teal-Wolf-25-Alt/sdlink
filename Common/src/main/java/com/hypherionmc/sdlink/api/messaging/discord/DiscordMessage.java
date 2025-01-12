@@ -63,6 +63,15 @@ public final class DiscordMessage {
         if (message.isEmpty())
             return;
 
+        BotController.INSTANCE.getSpamManager().receiveMessage(message);
+
+        if (BotController.INSTANCE.getSpamManager().isBlocked(message)) {
+            if (SDLinkConfig.INSTANCE.generalConfig.debugging)
+                BotController.INSTANCE.getLogger().warn("Blocked message {} due to spam", message);
+
+            return;
+        }
+
         try {
             if (messageType == MessageType.CONSOLE) {
                 sendConsoleMessage();
