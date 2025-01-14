@@ -48,7 +48,7 @@ public class FTBRankSync extends AbstractRoleSyncer {
             // Remove Ranks from Users
             List<BridgedRank> ranks = FTBRanks.INSTANCE.getPlayerRanks(p.getGameProfile());
             for (BridgedRank rank : ranks) {
-                Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.name()) || s.role.equalsIgnoreCase(rank.id())).findFirst();
+                Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.name()) || s.rank.equalsIgnoreCase(rank.id())).findFirst();
 
                 sync.ifPresent(s -> {
                     if (roles.stream().noneMatch(r -> r.getId().equalsIgnoreCase(s.role)) && FTBRanks.INSTANCE.hasRank(p.getGameProfile(), s.rank)) {
@@ -66,7 +66,7 @@ public class FTBRankSync extends AbstractRoleSyncer {
 
             // Add Roles to Users
             for (BridgedRank rank : ranks) {
-                Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.name()) || s.role.equalsIgnoreCase(rank.id())).findFirst();
+                Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.name()) || s.rank.equalsIgnoreCase(rank.id())).findFirst();
 
                 sync.ifPresent(s -> {
                     if (roles.stream().noneMatch(r -> r.getId().equalsIgnoreCase(s.role))) {
@@ -132,7 +132,7 @@ public class FTBRankSync extends AbstractRoleSyncer {
         if (member == null)
             return;
 
-        Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.id())).findFirst();
+        Optional<RoleSyncCompat.Sync> sync = SDLinkCompatConfig.INSTANCE.ftbRanksCompat.syncs.stream().filter(s -> s.rank.equalsIgnoreCase(rank.name()) || s.rank.equalsIgnoreCase(rank.id())).findFirst();
 
         sync.ifPresent(s -> {
             Role role = RoleManager.getFtbRanksRoles().stream().filter(r -> r.getId().equalsIgnoreCase(s.role)).findFirst().orElse(null);
