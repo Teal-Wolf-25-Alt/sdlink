@@ -1,5 +1,7 @@
 package com.hypherionmc.sdlink.core.managers;
 
+import com.hypherionmc.sdlink.core.discord.BotController;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,13 +40,16 @@ public class SpamManager {
                 timestamps = new ArrayList<>();
 
             timestamps.add(currentTime);
-            return timestamps.stream()
-                    .filter(timestamp -> currentTime - timestamp <= timeWindowMillis)
-                    .toList();
+            return new ArrayList<>(
+                    timestamps.stream()
+                            .filter(timestamp -> currentTime - timestamp <= timeWindowMillis)
+                            .toList()
+            );
         });
 
-        if (messageTimestamps.get(message).size() >= threshold)
+        if (messageTimestamps.get(message).size() >= threshold) {
             blockedMessages.add(message);
+        }
     }
 
     public boolean isBlocked(String message) {
@@ -56,9 +61,11 @@ public class SpamManager {
             long currentTime = System.currentTimeMillis();
             blockedMessages.removeIf(message -> {
                 List<Long> timestamps = messageTimestamps.getOrDefault(message, new ArrayList<>());
-                timestamps = timestamps.stream()
-                        .filter(timestamp -> currentTime - timestamp <= timeWindowMillis)
-                        .toList();
+                timestamps = new ArrayList<>(
+                        timestamps.stream()
+                                .filter(timestamp -> currentTime - timestamp <= timeWindowMillis)
+                                .toList()
+                );
                 messageTimestamps.put(message, timestamps);
                 return timestamps.size() < threshold;
             });
