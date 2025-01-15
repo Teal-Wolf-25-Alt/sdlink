@@ -5,7 +5,8 @@
   "name": "${mod_name}",
   "description": "A simple Minecraft to Discord Chat bot with Whitelisting",
   "authors": [
-    "${mod_author}"
+    "${mod_author}",
+    "Teal Wolf 25 (This Fork)"
   ],
   "contact": {
     "homepage": "https://github.com/firstdarkdev/sdlink",
