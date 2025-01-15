@@ -16,6 +16,10 @@ public final class AccessControl {
     @SpecComment("Enable Access Control")
     public boolean enabled = false;
 
+    @Path("optionalVerification")
+    @SpecComment("Allow users to verify their accounts without access control. This setting is ignored if the above setting is set to true")
+    public boolean optionalVerification = false;
+
     @Path("requireDiscordMembership")
     @SpecComment("Does the player need to be a member of your discord to join")
     public boolean requireDiscordMembership = false;
@@ -53,6 +57,10 @@ public final class AccessControl {
     public boolean banMemberOnMinecraftBan = false;
 
     public static class AccessMessages {
+
+        @Path("optionalVerificationMessage")
+        @SpecComment("This message is shown to users when they use the in-game verification command")
+        public String optionalVerificationMessage = "Your verification code is: {code}. Please DM our bot, or use the /verify command in our discord to verify your account";
 
         @Path("accountVerification")
         @SpecComment("The message shown to players that are not verified")

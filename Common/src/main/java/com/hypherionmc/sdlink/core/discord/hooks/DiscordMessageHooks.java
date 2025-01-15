@@ -4,14 +4,19 @@
  */
 package com.hypherionmc.sdlink.core.discord.hooks;
 
+import com.hypherionmc.sdlink.api.accounts.MinecraftAccount;
 import com.hypherionmc.sdlink.api.messaging.MessageDestination;
+import com.hypherionmc.sdlink.api.messaging.Result;
 import com.hypherionmc.sdlink.core.config.SDLinkConfig;
+import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.BotController;
 import com.hypherionmc.sdlink.core.discord.SDLWebhookServerMember;
 import com.hypherionmc.sdlink.core.managers.ChannelManager;
+import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.HiddenPlayersManager;
 import com.hypherionmc.sdlink.core.managers.WebhookManager;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageReference;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
@@ -19,6 +24,8 @@ import net.dv8tion.jda.api.entities.messages.MessageSnapshot;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.fellbaum.jemoji.Emoji;
 import net.fellbaum.jemoji.EmojiManager;
+
+import java.util.List;
 
 /**
  * @author HypherionSA
@@ -106,4 +113,54 @@ public final class DiscordMessageHooks {
         }
     }
 
+    public static void checkVerification(MessageReceivedEvent event) {
+        String message = event.getMessage().getContentStripped();
+
+        if (message.length() != 4) {
+            event.getMessage().reply("Sorry, I can only handle 4 digit verification code messages. Please try again").queue();
+            return;
+        }
+
+        Guild guild = event.getJDA().getGuilds().isEmpty() ? null : event.getJDA().getGuilds().get(0);
+        if (guild == null) {
+            event.getMessage().reply("I couldn't find a discord server linked to this bot. Please inform the server operators").queue();
+            return;
+        }
+
+        Member m = guild.getMemberById(event.getAuthor().getIdLong());
+        if (m == null) {
+            event.getMessage().reply("You do not appear to be a member of " + event.getGuild().getName() + ". Cannot proceed").queue();
+            return;
+        }
+
+        List<SDLinkAccount> accounts = DatabaseManager.INSTANCE.findAll(SDLinkAccount.class);
+
+        if (accounts.isEmpty()) {
+            event.getMessage().reply("Sorry, but this server does not contain any stored players in its database").queue();
+            return;
+        }
+
+        boolean didVerify = false;
+
+        for (SDLinkAccount account : accounts) {
+            if (account.getVerifyCode() == null)
+                continue;
+
+            if (accounts.stream().anyMatch(a -> a.getDiscordID() != null && a.getDiscordID().equals(m.getId())) && !SDLinkConfig.INSTANCE.accessControl.allowMultipleAccounts) {
+                event.getMessage().reply("Sorry, you already have a verified account and this server does not allow multiple accounts").queue();
+                return;
+            }
+
+            if (account.getVerifyCode().equalsIgnoreCase(String.valueOf(message))) {
+                MinecraftAccount minecraftAccount = MinecraftAccount.of(account);
+                Result result = minecraftAccount.verifyAccount(m, guild);
+                event.getMessage().reply(result.getMessage()).queue();
+                didVerify = true;
+                break;
+            }
+        }
+
+        if (!didVerify)
+            event.getMessage().reply("Sorry, we could not verify your Minecraft account. Please try again").queue();
+    }
 }

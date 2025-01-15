@@ -46,7 +46,7 @@ public final class RoleManager {
         ftbRanksRoles.clear();
         verifiedRole = null;
 
-        if (SDLinkConfig.INSTANCE.accessControl.enabled) {
+        if (SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification) {
             SDLinkConfig.INSTANCE.accessControl.requiredRoles.forEach(r -> {
                 Role role = getRole(errCount, builder, "Access Control", r);
 

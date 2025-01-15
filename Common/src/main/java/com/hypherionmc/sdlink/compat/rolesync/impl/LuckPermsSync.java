@@ -199,6 +199,11 @@ public class LuckPermsSync extends AbstractRoleSyncer {
             if (LuckPermsCompat.INSTANCE.hasGroup(account.getUuid(), sync.rank)) {
                 ignoreEvent = true;
                 LuckPermsCompat.INSTANCE.removeGroupFromUser(account.getUuid(), sync.rank);
+                if (oldAccount != null) {
+                    try {
+                        guild.removeRoleFromMember(UserSnowflake.fromId(member.getId()), role).queue();
+                    } catch (Exception ignored) {}
+                }
                 ignoreEvent = false;
             }
         }

@@ -39,7 +39,8 @@ subprojects {
 
     repositories {
         mavenCentral()
-        mavenLocal()
+        //mavenLocal()
+
         maven {
             url = "https://api.nightbloom.cc/maven"
         }

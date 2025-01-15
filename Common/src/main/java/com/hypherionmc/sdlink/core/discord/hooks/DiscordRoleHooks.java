@@ -33,7 +33,7 @@ public final class DiscordRoleHooks {
     }
 
     private void runCommandChecks(List<Role> roles, List<TriggerCommandsConfig.TriggerHolder> triggers, String section, String memberId) {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
+        if (!(SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification) || !SDLinkConfig.INSTANCE.triggerCommands.enabled)
             return;
 
         try {

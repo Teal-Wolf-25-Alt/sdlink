@@ -222,7 +222,7 @@ public final class MinecraftAccount {
     }
 
     public Result canLogin() {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled)
+        if (!SDLinkConfig.INSTANCE.accessControl.enabled && !SDLinkConfig.INSTANCE.accessControl.optionalVerification)
             return Result.success("");
 
         SDLinkAccount account = getStoredAccount();
@@ -230,7 +230,7 @@ public final class MinecraftAccount {
         if (account == null)
             return Result.error("Failed to load your account");
 
-        if (!isAccountVerified()) {
+        if (!isAccountVerified() && SDLinkConfig.INSTANCE.accessControl.enabled) {
             if (SDLinkUtils.isNullOrEmpty(account.getVerifyCode())) {
                 int code = SDLinkUtils.intInRange(1000, 9999);
                 account.setVerifyCode(String.valueOf(code));
@@ -277,7 +277,7 @@ public final class MinecraftAccount {
     }
 
     public Result checkAccessControl() {
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled) {
+        if (!SDLinkConfig.INSTANCE.accessControl.enabled && !SDLinkConfig.INSTANCE.accessControl.optionalVerification) {
             return Result.success("pass");
         }
 
@@ -285,7 +285,7 @@ public final class MinecraftAccount {
         if (account == null)
             return Result.error("notFound");
 
-        if (SDLinkUtils.isNullOrEmpty(account.getDiscordID()))
+        if (SDLinkUtils.isNullOrEmpty(account.getDiscordID()) && SDLinkConfig.INSTANCE.accessControl.enabled)
             return Result.error("notVerified");
 
         if (SDLinkConfig.INSTANCE.accessControl.requireDiscordMembership) {

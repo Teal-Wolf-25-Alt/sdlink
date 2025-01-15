@@ -142,7 +142,8 @@ public final class BotController {
                             GatewayIntent.GUILD_MEMBERS,
                             GatewayIntent.GUILD_MESSAGES,
                             GatewayIntent.MESSAGE_CONTENT,
-                            GatewayIntent.GUILD_MESSAGE_REACTIONS
+                            GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                            GatewayIntent.DIRECT_MESSAGES
                     )
                     .addEventListeners(commandClient, eventWaiter, new DiscordEventHandler())
                     .setAutoReconnect(true)

@@ -69,7 +69,7 @@ public final class PlayerListSlashCommand extends SDLinkSlashCommand {
                 p.forEach(account -> {
                     sb.append("`").append(account.getUsername()).append("`");
 
-                    if (SDLinkConfig.INSTANCE.accessControl.enabled && account.getDiscordUser() != null) {
+                    if ((SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification) && account.getDiscordUser() != null) {
                         sb.append(" - ").append(account.getDiscordUser().getAsMention());
                     }
                     sb.append("\r\n");

@@ -22,6 +22,7 @@ import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.hypherionmc.sdlink.core.managers.PermissionChecker;
 import com.hypherionmc.sdlink.core.services.SDLinkPlatform;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
@@ -83,6 +84,12 @@ public final class DiscordEventHandler extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (event.getAuthor() == event.getJDA().getSelfUser())
             return;
+
+        if (event.isFromType(ChannelType.PRIVATE)) {
+            System.out.println("Checking Code");
+            DiscordMessageHooks.checkVerification(event);
+            return;
+        }
 
         if (!event.isFromGuild())
             return;
@@ -146,7 +153,7 @@ public final class DiscordEventHandler extends ListenerAdapter {
             CacheManager.loadUserCache();
         }
 
-        if (event.getUser().isBot() || !SDLinkConfig.INSTANCE.accessControl.enabled)
+        if (event.getUser().isBot() || !(SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification))
             return;
 
         try {
@@ -196,7 +203,7 @@ public final class DiscordEventHandler extends ListenerAdapter {
 
         CacheManager.loadUserCache();
 
-        if (!SDLinkConfig.INSTANCE.accessControl.enabled)
+        if (!SDLinkConfig.INSTANCE.accessControl.enabled && !SDLinkConfig.INSTANCE.accessControl.optionalVerification)
             return;
 
         try {

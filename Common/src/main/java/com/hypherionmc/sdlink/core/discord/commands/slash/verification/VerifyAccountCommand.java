@@ -11,6 +11,8 @@ import com.hypherionmc.sdlink.core.database.SDLinkAccount;
 import com.hypherionmc.sdlink.core.discord.commands.slash.SDLinkSlashCommand;
 import com.hypherionmc.sdlink.core.managers.DatabaseManager;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
@@ -23,6 +25,7 @@ public final class VerifyAccountCommand extends SDLinkSlashCommand {
         super(false);
         this.name = "verify";
         this.help = "Verify your Minecraft account to access the server";
+        this.guildOnly = false;
 
         this.options = Collections.singletonList(new OptionData(OptionType.INTEGER, "code", "The verification code from the Minecraft Kick Message").setRequired(true));
     }
@@ -30,7 +33,6 @@ public final class VerifyAccountCommand extends SDLinkSlashCommand {
     @Override
     protected void execute(SlashCommandEvent event) {
         event.deferReply(SDLinkConfig.INSTANCE.botConfig.silentReplies).queue();
-
 
         int mcCode = event.getOption("code") != null ? event.getOption("code").getAsInt() : 0;
 
@@ -46,20 +48,32 @@ public final class VerifyAccountCommand extends SDLinkSlashCommand {
             return;
         }
 
+        Guild guild = event.isFromGuild() ? event.getGuild() : (event.getJDA().getGuilds().isEmpty() ? null : event.getJDA().getGuilds().get(0));
+        if (guild == null) {
+            event.getHook().sendMessage("Sorry, I cannot find a discord server attached to this bot. Please report this to the server operator").setEphemeral(SDLinkConfig.INSTANCE.botConfig.silentReplies).queue();
+            return;
+        }
+
+        Member m = event.isFromGuild() ? event.getMember() : guild.getMemberById(event.getUser().getId());
+        if (m == null) {
+            event.getHook().sendMessage("Sorry, you do not seem to be a member of " + guild.getName() + ". Please try again").setEphemeral(SDLinkConfig.INSTANCE.botConfig.silentReplies).queue();
+            return;
+        }
+
         boolean didVerify = false;
 
         for (SDLinkAccount account : accounts) {
             if (account.getVerifyCode() == null)
                 continue;
 
-            if (accounts.stream().anyMatch(a -> a.getDiscordID() != null && a.getDiscordID().equals(event.getMember().getId())) && !SDLinkConfig.INSTANCE.accessControl.allowMultipleAccounts) {
+            if (accounts.stream().anyMatch(a -> a.getDiscordID() != null && a.getDiscordID().equals(m.getId())) && !SDLinkConfig.INSTANCE.accessControl.allowMultipleAccounts) {
                 event.getHook().sendMessage("Sorry, you already have a verified account and this server does not allow multiple accounts").queue();
                 return;
             }
 
             if (account.getVerifyCode().equalsIgnoreCase(String.valueOf(mcCode))) {
                 MinecraftAccount minecraftAccount = MinecraftAccount.of(account);
-                Result result = minecraftAccount.verifyAccount(event.getMember(), event.getGuild());
+                Result result = minecraftAccount.verifyAccount(m, guild);
                 event.getHook().sendMessage(result.getMessage()).setEphemeral(true).queue();
                 didVerify = true;
                 break;

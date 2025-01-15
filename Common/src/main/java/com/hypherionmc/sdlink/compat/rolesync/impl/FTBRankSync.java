@@ -167,6 +167,11 @@ public class FTBRankSync extends AbstractRoleSyncer {
             if (FTBRanks.INSTANCE.hasRank(account.toGameProfile(), sync.rank)) {
                 ignoreEvent = true;
                 FTBRanks.INSTANCE.removeRank(account.toGameProfile(), sync.rank);
+                if (oldAccount != null) {
+                    try {
+                        guild.removeRoleFromMember(UserSnowflake.fromId(member.getId()), role).queue();
+                    } catch (Exception ignored) {}
+                }
                 ignoreEvent = false;
             }
         }

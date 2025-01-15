@@ -34,8 +34,8 @@ public final class UnhidePlayerCommand extends SDLinkSlashCommand {
         boolean mc = event.hasOption("minecraft") && event.getOption("minecraft").getAsBoolean();
 
         if (mc) {
-            if (!SDLinkConfig.INSTANCE.accessControl.enabled) {
-                event.getHook().editOriginal("The minecraft option cannot be used when access control is disabled").queue();
+            if (!SDLinkConfig.INSTANCE.accessControl.enabled && !SDLinkConfig.INSTANCE.accessControl.optionalVerification) {
+                event.getHook().editOriginal("The minecraft option cannot be used when both access control and optionalVerification is disabled").queue();
                 return;
             }
 

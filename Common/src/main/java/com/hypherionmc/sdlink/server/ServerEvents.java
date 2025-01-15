@@ -70,6 +70,7 @@ public final class ServerEvents {
         HidePlayerCommand.register(event);
         UnhidePlayerCommand.register(event);
         ConfigEditorCommand.register(event);
+        DiscordVerifyCommand.register(event);
     }
 
     @CraterEventListener
@@ -344,7 +345,7 @@ public final class ServerEvents {
 
     @CraterEventListener
     public void playerLeaveEvent(CraterPlayerEvent.PlayerLoggedOut event) {
-        if (SDLinkConfig.INSTANCE.accessControl.enabled) {
+        if (SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification) {
             try {
                 if (SDLinkConfig.INSTANCE.accessControl.banMemberOnMinecraftBan) {
                     MinecraftAccount account = MinecraftAccount.of(event.getPlayer().getGameProfile());
@@ -452,7 +453,7 @@ public final class ServerEvents {
         if (BotController.INSTANCE == null || !BotController.INSTANCE.isBotReady())
             return;
 
-        if (SDLinkConfig.INSTANCE.accessControl.enabled) {
+        if (SDLinkConfig.INSTANCE.accessControl.enabled || SDLinkConfig.INSTANCE.accessControl.optionalVerification) {
             MinecraftAccount account = MinecraftAccount.of(event.getGameProfile());
 
             try {
